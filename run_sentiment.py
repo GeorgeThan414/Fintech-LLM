@@ -3,13 +3,12 @@ import os
 import re
 from typing import List
 
-import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
-from peft import PeftModel
+from groq import Groq
+from dotenv import load_dotenv
 
-
-BASE_MODEL = "meta-llama/Llama-2-13b-hf"
-ADAPTER_MODEL = "FinGPT/fingpt-sentiment_llama2-13b_lora"
+load_dotenv()
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY","")
+MODEL = "llama-3.3-70b-versatile"
 
 DEFAULT_HEADLINES = [
     "Tesla shares rose after the company reported stronger-than-expected quarterly earnings.",
@@ -32,77 +31,65 @@ def load_headlines(path: str) -> List[str]:
     return DEFAULT_HEADLINES
 
 
-def build_prompt(text: str) -> str:
-    return (
-        "Instruction: What is the sentiment of this news? "
-        "Please choose an answer from {negative/neutral/positive}.\n"
-        f"Input: {text}\n"
-        "Answer: "
-    )
-
-
 def extract_label(text: str) -> str:
     text_lower = text.lower()
     matches = re.findall(r"\b(negative|neutral|positive)\b", text_lower)
     if matches:
-        return matches[-1]
+        return matches[0]
     return "unknown"
 
 
+def analyze_sentiment(client: Groq, headline: str) -> tuple[str, str]:
+    response = client.chat.completions.create(
+        model=MODEL,
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are a financial sentiment analysis expert. "
+                    "When given a news headline, respond with exactly one word: "
+                    "positive, negative, or neutral."
+                ),
+            },
+            {
+                "role": "user",
+                "content": (
+                    f"What is the sentiment of this financial news headline?\n"
+                    f"{headline}\n"
+                    f"Answer with only one word: positive, negative, or neutral."
+                ),
+            },
+        ],
+        max_tokens=10,
+        temperature=0.0,
+    )
+    raw = response.choices[0].message.content.strip()
+    label = extract_label(raw)
+    return label, raw
+
+
 def main():
-    print("Loading tokenizer...")
-    tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL, use_fast=False)
+    if GROQ_API_KEY == "your_groq_api_key_here":
+        print("ERROR: Set your Groq API key in GROQ_API_KEY environment variable.")
+        print("Get a free key at: https://console.groq.com")
+        return
 
-    if tokenizer.pad_token is None:
-        tokenizer.pad_token = tokenizer.eos_token
-
-    print("Loading 4-bit base model...")
-    quant_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_compute_dtype=torch.float16,
-        bnb_4bit_quant_type="nf4",
-        bnb_4bit_use_double_quant=True,
-    )
-
-    base_model = AutoModelForCausalLM.from_pretrained(
-        BASE_MODEL,
-        quantization_config=quant_config,
-        device_map="auto",
-        trust_remote_code=True,
-    )
-
-    print("Loading LoRA adapter...")
-    model = PeftModel.from_pretrained(base_model, ADAPTER_MODEL)
-    model.eval()
+    client = Groq(api_key=GROQ_API_KEY)
 
     headlines = load_headlines(INPUT_FILE)
     print(f"Loaded {len(headlines)} headlines.")
+    print(f"Using model: {MODEL}\n")
 
     results = []
 
     for idx, headline in enumerate(headlines, start=1):
-        prompt = build_prompt(headline)
-        inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
-
-        with torch.no_grad():
-            outputs = model.generate(
-                **inputs,
-                max_new_tokens=32,
-                do_sample=False,
-                temperature=0.0,
-                eos_token_id=tokenizer.eos_token_id,
-                pad_token_id=tokenizer.pad_token_id,
-            )
-
-        decoded = tokenizer.decode(outputs[0], skip_special_tokens=True)
-        label = extract_label(decoded)
-
+        label, raw = analyze_sentiment(client, headline)
         print(f"[{idx}] {label} | {headline}")
         results.append(
             {
                 "headline": headline,
                 "prediction": label,
-                "raw_output": decoded,
+                "raw_output": raw,
             }
         )
 
