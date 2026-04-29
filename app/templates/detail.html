@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}{{ forecast.company }} - Detailed Analysis{% endblock %}
+
+{% block content %}
+<div class="detail-header">
+    <h1>{{ forecast.company }} ({{ forecast.ticker }})</h1>
+    <a href="/dashboard" class="btn-back">← Back to Dashboard</a>
+</div>
+
+<div class="detail-container">
+    <!-- Prediction Section -->
+    <section class="prediction-section">
+        <h2>Prediction</h2>
+        <div class="prediction-banner {{ forecast.prediction }}">
+            <div class="prediction-large">{{ forecast.prediction.upper() }}</div>
+        </div>
+    </section>
+
+    <!-- Price Information -->
+    <section class="price-section">
+        <h2>Price Information</h2>
+        <div class="price-box">
+            <span class="label">Last Close Price:</span>
+            <span class="value">${{ "%.4f"|format(forecast.last_close) }}</span>
+        </div>
+    </section>
+
+    <!-- Headlines -->
+    <section class="headlines-section">
+        <h2>Recent News Headlines</h2>
+        <div class="headlines-list">
+            {% for headline in forecast.headlines %}
+            <div class="headline-item">
+                <span class="bullet">•</span>
+                {{ headline }}
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Full Analysis -->
+    <section class="analysis-section">
+        <h2>Full Analysis</h2>
+        <div class="analysis-box">
+            <pre>{{ forecast.raw_output }}</pre>
+        </div>
+    </section>
+</div>
+
+{% endblock %}

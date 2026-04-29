@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Stock Forecast{% endblock %}
+
+{% block content %}
+<h1>Forecast Dashboard</h1>
+
+<!-- Stats Summary -->
+<div class="stats-container">
+    <div class="stat-card">
+        <div class="stat-value">{{ stats.total }}</div>
+        <div class="stat-label">Total Forecasts</div>
+    </div>
+    <div class="stat-card rise">
+        <div class="stat-value">{{ stats.rise }}</div>
+        <div class="stat-label">Rise Predictions</div>
+    </div>
+    <div class="stat-card fall">
+        <div class="stat-value">{{ stats.fall }}</div>
+        <div class="stat-label">Fall Predictions</div>
+    </div>
+    <div class="stat-card remain">
+        <div class="stat-value">{{ stats.remain }}</div>
+        <div class="stat-label">Remain Predictions</div>
+    </div>
+</div>
+
+<!-- Forecast Cards -->
+<div class="forecast-grid">
+    {% for forecast in forecasts %}
+    <div class="forecast-card {{ forecast.prediction }}">
+        <div class="card-header">
+            <h2>{{ forecast.company }}</h2>
+            <span class="ticker">{{ forecast.ticker }}</span>
+        </div>
+        
+        <div class="card-body">
+            <div class="prediction-badge {{ forecast.prediction }}">
+                {{ forecast.prediction.upper() }}
+            </div>
+            
+            <div class="price-info">
+                <span class="label">Last Close:</span>
+                <span class="price">${{ "%.2f"|format(forecast.last_close) }}</span>
+            </div>
+            
+            <div class="headlines">
+                <h4>Recent Headlines:</h4>
+                <ul>
+                    {% for headline in forecast.headlines %}
+                    <li>{{ headline }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card-footer">
+            <a href="/forecast/{{ forecast.ticker }}" class="btn">View Full Analysis</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- No data message -->
+{% if not forecasts %}
+<div class="no-data">
+    <p>No forecast data found. Run run_forecast_v2.py to generate forecasts.</p>
+</div>
+{% endif %}
+
+{% endblock %}
