@@ -1,6 +1,24 @@
+# Core ML
 torch
 transformers
 peft
 bitsandbytes
-python-dotenv
+
+# Data
+yfinance
+pandas
 requests
+
+# Streamlit + viz
+streamlit
+plotly
+
+# LLM APIs
+groq
+python-dotenv
+
+# Public URL tunneling
+pyngrok
+
+# Existing Flask dashboard (optional, deprecated)
+flask
