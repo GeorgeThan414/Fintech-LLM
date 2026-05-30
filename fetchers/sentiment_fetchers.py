@@ -141,6 +141,39 @@ def analyze_with_fingpt(headline: str, tokenizer, model) -> Dict:
     }
 
 
+def analyze_with_finbert(headline: str, tokenizer, model) -> Dict:
+    """
+    Use ProsusAI/finbert (BERT classifier fine-tuned on financial text).
+    Returns sentiment + impact derived from confidence score. No reason text.
+    """
+    import torch
+
+    inputs = tokenizer(headline, return_tensors="pt", truncation=True, max_length=512).to(model.device)
+
+    with torch.no_grad():
+        outputs = model(**inputs)
+
+    probs = torch.softmax(outputs.logits, dim=-1)[0]
+    best_idx = probs.argmax().item()
+    confidence = probs[best_idx].item()
+    label = model.config.id2label[best_idx].lower()
+
+    if confidence >= 0.8:
+        impact = "high"
+    elif confidence >= 0.5:
+        impact = "medium"
+    else:
+        impact = "low"
+
+    return {
+        "sentiment": label,
+        "impact": impact,
+        "reason": "",
+        "raw": f"Label: {label}, Confidence: {confidence:.3f}",
+        "engine": "FinBERT (ProsusAI)",
+    }
+
+
 def make_groq_client(api_key: str) -> Optional[Groq]:
     if not api_key:
         return None

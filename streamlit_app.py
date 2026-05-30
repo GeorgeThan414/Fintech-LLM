@@ -28,6 +28,7 @@ from fetchers.news_fetchers import (
 from fetchers.sentiment_fetchers import (
     analyze_with_groq,
     analyze_with_fingpt,
+    analyze_with_finbert,
     make_groq_client,
 )
 
@@ -403,6 +404,18 @@ def cached_fingpt():
     return load_fingpt_model()
 
 
+@st.cache_resource(show_spinner="Loading FinBERT model (~400MB)...")
+def cached_finbert():
+    from transformers import AutoTokenizer, AutoModelForSequenceClassification
+    import torch
+    tokenizer = AutoTokenizer.from_pretrained("ProsusAI/finbert")
+    model = AutoModelForSequenceClassification.from_pretrained("ProsusAI/finbert")
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    model = model.to(device)
+    model.eval()
+    return tokenizer, model
+
+
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 
 st.sidebar.title("Fintech-LLM")
@@ -424,6 +437,7 @@ st.sidebar.caption("• Yahoo Finance (prices + news)")
 st.sidebar.caption("• Alpha Vantage (bulk news + sentiment)")
 st.sidebar.caption("• Groq Llama 3.3 70B (cloud LLM)")
 st.sidebar.caption("• FinGPT Llama-2-7b (local LLM)")
+st.sidebar.caption("• FinBERT ProsusAI (local classifier)")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -566,11 +580,11 @@ elif page == "News & Sentiment":
     info_box(
         "Pull the latest headlines for any S&P 500 ticker (via Yahoo Finance, unlimited) "
         "and run sentiment analysis with <b>Groq</b> (fast cloud), <b>FinGPT</b> "
-        "(local model), or <b>both</b> to compare."
+        "(local LLM), <b>FinBERT</b> (local classifier), or compare engines side-by-side."
     )
     step_box(
         "<b>How to use:</b> 1) Pick a ticker. 2) Choose how many articles. 3) Pick the engine. "
-        "4) Click <b>Fetch & Analyze</b>. The first FinGPT call takes ~30s; subsequent calls are instant."
+        "4) Click <b>Fetch & Analyze</b>. The first FinGPT/FinBERT call takes ~30s; subsequent calls are instant."
     )
 
     sp500 = cached_sp500()
@@ -586,7 +600,7 @@ elif page == "News & Sentiment":
     with c3:
         max_articles = st.number_input("Articles", min_value=3, max_value=1000, value=10)
     with c4:
-        engine = st.selectbox("Engine", ["Groq (fast)", "FinGPT (local)", "Both (compare)"])
+        engine = st.selectbox("Engine", ["Groq (fast)", "FinGPT (local)", "FinBERT (local)", "Both Groq+FinGPT (compare)", "All three (compare)"])
 
     fetch_clicked = st.button("Fetch & Analyze", type="primary")
 
@@ -607,8 +621,9 @@ elif page == "News & Sentiment":
         # Enforce exact count
         articles = articles[:max_articles]
 
-        use_groq = "Groq" in engine or "Both" in engine
-        use_fingpt = "FinGPT" in engine or "Both" in engine
+        use_groq = engine in ("Groq (fast)", "Both Groq+FinGPT (compare)", "All three (compare)")
+        use_fingpt = engine in ("FinGPT (local)", "Both Groq+FinGPT (compare)", "All three (compare)")
+        use_finbert = engine in ("FinBERT (local)", "All three (compare)")
 
         groq_client = cached_groq_client() if use_groq else None
         if use_groq and not groq_client:
@@ -616,6 +631,7 @@ elif page == "News & Sentiment":
             st.stop()
 
         fingpt_pair = cached_fingpt() if use_fingpt else None
+        finbert_pair = cached_finbert() if use_finbert else None
 
         st.subheader(f"Analysis ({len(articles)} articles)")
         results = []
@@ -639,6 +655,14 @@ elif page == "News & Sentiment":
                 row["fingpt_reason"] = fr.get("reason", "")
                 row["fingpt_raw"] = fr["raw"]
 
+            if use_finbert:
+                tok, mdl = finbert_pair
+                br = analyze_with_finbert(headline, tok, mdl)
+                row["finbert_sentiment"] = br["sentiment"]
+                row["finbert_impact"] = br["impact"]
+                row["finbert_reason"] = br.get("reason", "")
+                row["finbert_raw"] = br["raw"]
+
             results.append(row)
             progress.progress((i + 1) / len(articles))
         progress.empty()
@@ -648,6 +672,7 @@ elif page == "News & Sentiment":
             "results": results,
             "use_groq": use_groq,
             "use_fingpt": use_fingpt,
+            "use_finbert": use_finbert,
             "symbol": symbol,
             "source": source,
             "requested": max_articles,
@@ -659,6 +684,7 @@ elif page == "News & Sentiment":
         results = cache["results"]
         use_groq = cache["use_groq"]
         use_fingpt = cache["use_fingpt"]
+        use_finbert = cache.get("use_finbert", False)
 
         st.caption(f"Showing cached analysis for **{cache['symbol']}** "
                    f"({len(results)} articles, source: {cache['source']}). "
@@ -688,34 +714,70 @@ elif page == "News & Sentiment":
             f3.metric("Neutral", sum(1 for r in results if r.get("fingpt_sentiment") == "neutral"))
             f4.metric("High Impact", sum(1 for r in results if r.get("fingpt_impact") == "high"))
 
-        if use_groq and use_fingpt:
+        if use_finbert:
+            st.markdown("##### FinBERT (ProsusAI)")
+            b1, b2, b3, b4 = st.columns(4)
+            b1.metric("Positive", sum(1 for r in results if r.get("finbert_sentiment") == "positive"))
+            b2.metric("Negative", sum(1 for r in results if r.get("finbert_sentiment") == "negative"))
+            b3.metric("Neutral", sum(1 for r in results if r.get("finbert_sentiment") == "neutral"))
+            b4.metric("High Impact", sum(1 for r in results if r.get("finbert_impact") == "high"))
+
+        _n_active = sum([use_groq, use_fingpt, use_finbert])
+        if _n_active == 3:
+            d1, d2, d3 = st.columns(3)
+        elif _n_active == 2:
             d1, d2 = st.columns(2)
+            d3 = None
         else:
             d1 = st.container()
             d2 = None
+            d3 = None
+
+        _pie_cols = [c for c in [d1, d2, d3] if c is not None]
+        _pie_idx = 0
 
         if use_groq:
             counts = pd.Series([r["groq_sentiment"] for r in results]).value_counts()
             fig = px.pie(values=counts.values, names=counts.index, title="Groq Sentiment",
                          color=counts.index, color_discrete_map=SENTIMENT_COLORS)
-            with d1:
+            with _pie_cols[_pie_idx]:
                 st.plotly_chart(styled(fig, 280), width="stretch")
+            _pie_idx += 1
+
         if use_fingpt:
             counts = pd.Series([r["fingpt_sentiment"] for r in results]).value_counts()
             fig = px.pie(values=counts.values, names=counts.index,
                          title="FinGPT Sentiment (LoRA off)",
                          color=counts.index, color_discrete_map=SENTIMENT_COLORS)
-            target = d2 if d2 is not None else d1
-            with target:
+            with _pie_cols[_pie_idx]:
+                st.plotly_chart(styled(fig, 280), width="stretch")
+            _pie_idx += 1
+
+        if use_finbert:
+            counts = pd.Series([r["finbert_sentiment"] for r in results]).value_counts()
+            fig = px.pie(values=counts.values, names=counts.index, title="FinBERT Sentiment",
+                         color=counts.index, color_discrete_map=SENTIMENT_COLORS)
+            with _pie_cols[_pie_idx]:
                 st.plotly_chart(styled(fig, 280), width="stretch")
 
         if use_groq and use_fingpt:
-            agree = sum(1 for r in results if r["groq_sentiment"] == r["fingpt_sentiment"])
+            agree = sum(1 for r in results if r.get("groq_sentiment") == r.get("fingpt_sentiment"))
             agree_pct = (agree / len(results)) * 100 if results else 0
-            st.metric("Engine Agreement", f"{agree}/{len(results)} ({agree_pct:.0f}%)")
+            st.metric("Groq vs FinGPT Agreement", f"{agree}/{len(results)} ({agree_pct:.0f}%)")
+
+        if use_groq and use_finbert:
+            agree = sum(1 for r in results if r.get("groq_sentiment") == r.get("finbert_sentiment"))
+            agree_pct = (agree / len(results)) * 100 if results else 0
+            st.metric("Groq vs FinBERT Agreement", f"{agree}/{len(results)} ({agree_pct:.0f}%)")
+
+        if use_fingpt and use_finbert:
+            agree = sum(1 for r in results if r.get("fingpt_sentiment") == r.get("finbert_sentiment"))
+            agree_pct = (agree / len(results)) * 100 if results else 0
+            st.metric("FinGPT vs FinBERT Agreement", f"{agree}/{len(results)} ({agree_pct:.0f}%)")
 
         high_impact = [r for r in results
-                       if r.get("groq_impact") == "high" or r.get("fingpt_impact") == "high"]
+                       if r.get("groq_impact") == "high" or r.get("fingpt_impact") == "high"
+                       or r.get("finbert_impact") == "high"]
         if high_impact:
             st.subheader(f"High-Impact Headlines ({len(high_impact)})")
             for r in high_impact:
@@ -725,10 +787,12 @@ elif page == "News & Sentiment":
         st.subheader("Per-Article Detail")
         for r in results:
             st.markdown(f"**[{r['title']}]({r['url']})** — *{r['source']}*")
-            cols = st.columns(2 if (use_groq and use_fingpt) else 1)
+            _n_cols = sum([use_groq, use_fingpt, use_finbert])
+            cols = st.columns(_n_cols if _n_cols > 1 else 1)
+            _col_idx = 0
 
             if use_groq and "groq_sentiment" in r:
-                with cols[0]:
+                with cols[_col_idx]:
                     s_class = SENTIMENT_BADGE.get(r["groq_sentiment"], "badge-neutral")
                     i_class = IMPACT_BADGE.get(r["groq_impact"], "badge-medium")
                     st.markdown(f'<span class="badge {s_class}">Groq: {r["groq_sentiment"]}</span> '
@@ -740,10 +804,10 @@ elif page == "News & Sentiment":
                                     f'margin:6px 0 4px 0;font-style:italic;">'
                                     f'{reason}</div>',
                                     unsafe_allow_html=True)
+                _col_idx += 1
 
             if use_fingpt and "fingpt_sentiment" in r:
-                target_col = cols[1] if (use_groq and use_fingpt) else cols[0]
-                with target_col:
+                with cols[_col_idx]:
                     s_class = SENTIMENT_BADGE.get(r["fingpt_sentiment"], "badge-neutral")
                     i_class = IMPACT_BADGE.get(r["fingpt_impact"], "badge-medium")
                     st.markdown(f'<span class="badge {s_class}">FinGPT: {r["fingpt_sentiment"]}</span> '
@@ -755,6 +819,15 @@ elif page == "News & Sentiment":
                                     f'margin:6px 0 4px 0;font-style:italic;">'
                                     f'{reason}</div>',
                                     unsafe_allow_html=True)
+                _col_idx += 1
+
+            if use_finbert and "finbert_sentiment" in r:
+                with cols[_col_idx]:
+                    s_class = SENTIMENT_BADGE.get(r["finbert_sentiment"], "badge-neutral")
+                    i_class = IMPACT_BADGE.get(r["finbert_impact"], "badge-medium")
+                    st.markdown(f'<span class="badge {s_class}">FinBERT: {r["finbert_sentiment"]}</span> '
+                                f'<span class="badge {i_class}">Impact: {r["finbert_impact"]}</span>',
+                                unsafe_allow_html=True)
 
             st.divider()
 
