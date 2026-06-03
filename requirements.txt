@@ -20,5 +20,10 @@ python-dotenv
 # Public URL tunneling
 pyngrok
 
+# Model-comparison evaluation harness (evaluation/)
+datasets
+scikit-learn
+matplotlib
+
 # Existing Flask dashboard (optional, deprecated)
 flask
