@@ -8,14 +8,13 @@ Run after evaluation.metrics:
   python -m evaluation.figures
 """
 
+import argparse
 import csv
 import glob
 import os
-import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RESULTS = os.path.join(ROOT, "results")
-FIGDIR = os.path.join(RESULTS, "figures")
 
 import matplotlib  # noqa: E402
 
@@ -35,8 +34,8 @@ def _read_csv(path):
         return list(csv.reader(f))
 
 
-def accuracy_bar():
-    path = os.path.join(RESULTS, "sentiment_metrics.csv")
+def accuracy_bar(out_dir, figdir):
+    path = os.path.join(out_dir, "sentiment_metrics.csv")
     if not os.path.exists(path):
         print("skip accuracy_bar: sentiment_metrics.csv missing")
         return
@@ -63,14 +62,14 @@ def accuracy_bar():
             ax.annotate(f"{h:.2f}", (bar.get_x() + bar.get_width() / 2, h),
                         ha="center", va="bottom", fontsize=8)
     fig.tight_layout()
-    out = os.path.join(FIGDIR, "accuracy_macrof1.pdf")
+    out = os.path.join(figdir, "accuracy_macrof1.pdf")
     fig.savefig(out)
     plt.close(fig)
     print(f"wrote {out}")
 
 
-def confusion_heatmaps():
-    for path in sorted(glob.glob(os.path.join(RESULTS, "confusion_*.csv"))):
+def confusion_heatmaps(out_dir, figdir):
+    for path in sorted(glob.glob(os.path.join(out_dir, "confusion_*.csv"))):
         engine = os.path.basename(path)[len("confusion_"):-len(".csv")]
         grid = _read_csv(path)
         col_labels = grid[0][1:]
@@ -91,16 +90,22 @@ def confusion_heatmaps():
                         color="white" if mat[i, j] > thresh else "black")
         fig.colorbar(im, fraction=0.046, pad=0.04)
         fig.tight_layout()
-        out = os.path.join(FIGDIR, f"confusion_{engine}.pdf")
+        out = os.path.join(figdir, f"confusion_{engine}.pdf")
         fig.savefig(out)
         plt.close(fig)
         print(f"wrote {out}")
 
 
 def main():
-    os.makedirs(FIGDIR, exist_ok=True)
-    accuracy_bar()
-    confusion_heatmaps()
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--dataset", default="fpb", choices=["fpb", "fiqa"])
+    args = ap.parse_args()
+
+    out_dir = os.path.join(RESULTS, args.dataset)
+    figdir = os.path.join(out_dir, "figures")
+    os.makedirs(figdir, exist_ok=True)
+    accuracy_bar(out_dir, figdir)
+    confusion_heatmaps(out_dir, figdir)
 
 
 if __name__ == "__main__":

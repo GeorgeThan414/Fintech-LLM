@@ -1,0 +1,2 @@
+engine,n,accuracy,macro_f1,weighted_f1,n_unknown
+finbert,235,0.5574,0.5300,0.6402,0

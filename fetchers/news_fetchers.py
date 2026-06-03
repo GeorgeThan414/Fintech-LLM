@@ -198,6 +198,7 @@ def fetch_alphavantage_news(
     topic: Optional[str] = None,
     limit: int = 200,
     time_from: Optional[str] = None,
+    time_to: Optional[str] = None,
 ) -> List[Dict]:
     """
     Fetch up to 1000 articles per call from Alpha Vantage NEWS_SENTIMENT.
@@ -208,7 +209,8 @@ def fetch_alphavantage_news(
         tickers: comma-separated tickers (e.g. "AAPL,MSFT") — optional
         topic: one of ALPHAVANTAGE_TOPICS values — optional
         limit: max articles to return (1-1000)
-        time_from: YYYYMMDDTHHMM format — optional
+        time_from: YYYYMMDDTHHMM format — optional (lower bound, for backtests)
+        time_to: YYYYMMDDTHHMM format — optional (upper bound, for backtests)
 
     Returns: list of normalized article dicts with sentiment fields.
     """
@@ -227,6 +229,8 @@ def fetch_alphavantage_news(
         params["topics"] = topic
     if time_from:
         params["time_from"] = time_from
+    if time_to:
+        params["time_to"] = time_to
 
     try:
         r = requests.get(ALPHAVANTAGE_ENDPOINT, params=params, timeout=60)

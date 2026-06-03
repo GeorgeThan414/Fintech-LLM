@@ -1,16 +1,15 @@
-"""Load the Financial PhraseBank (FPB) sentiment benchmark.
+"""Load labeled financial-sentiment benchmarks (FLARE format).
 
-Source: ``ChanceFocus/flare-fpb`` on the HuggingFace Hub — a Parquet mirror of the
-Financial PhraseBank (Malo et al., 2014) reformatted for the FLARE financial-LLM
-benchmark. This is the same FPB split FinGPT and other financial LLMs report
-against, so our numbers line up with published leaderboards.
+Two datasets, same 3-class scheme (positive / negative / neutral):
 
-Columns of interest: ``text`` (the sentence) and ``answer`` (positive/neutral/negative).
-We use the ``test`` split (970 sentences) as the evaluation set.
+  fpb   ChanceFocus/flare-fpb     Financial PhraseBank (Malo et al. 2014).
+        IN-DOMAIN for FinBERT/FinGPT (they trained on it). test split = 970.
+  fiqa  ChanceFocus/flare-fiqasa  FiQA-2018 SA (tweets/headlines). OUT-OF-DOMAIN
+        for FinBERT (it never saw FiQA) — the fair cross-check. test split = 235.
 
-The eval set is materialized once to ``results/eval_set.csv`` so that *every* engine
-scores the exact same examples (a fair head-to-head). Change the size with --limit
-+ --rebuild in run_sentiment.py.
+Both expose `text` (the sentence) and `answer` (the gold label). The eval set is
+materialized once per dataset to results/<dataset>/eval_set.csv so every engine
+scores identical examples.
 """
 
 import csv
@@ -19,13 +18,19 @@ import random
 from typing import List, Optional, Tuple
 
 LABELS = ["positive", "negative", "neutral"]
-DATASET = "ChanceFocus/flare-fpb"
+
+# dataset key -> (HF repo, default split)
+DATASETS = {
+    "fpb": ("ChanceFocus/flare-fpb", "test"),
+    "fiqa": ("ChanceFocus/flare-fiqasa", "test"),
+}
 
 
-def _load_raw(split: str) -> List[Tuple[str, str]]:
+def _load_raw(dataset: str, split: str) -> List[Tuple[str, str]]:
     from datasets import load_dataset
 
-    ds = load_dataset(DATASET, split=split)
+    repo, default_split = DATASETS[dataset]
+    ds = load_dataset(repo, split=split or default_split)
     rows: List[Tuple[str, str]] = []
     for ex in ds:
         text = (ex.get("text") or "").strip()
@@ -54,12 +59,15 @@ def _stratified_sample(rows: List[Tuple[str, str]], limit: int, seed: int) -> Li
 
 def build_eval_set(
     path: str,
-    split: str = "test",
+    dataset: str = "fpb",
+    split: Optional[str] = None,
     limit: Optional[int] = None,
     seed: int = 42,
 ) -> str:
     """Materialize the shared eval set to `path` as CSV (id, text, label)."""
-    rows = _load_raw(split)
+    if dataset not in DATASETS:
+        raise ValueError(f"unknown dataset '{dataset}' (choices: {list(DATASETS)})")
+    rows = _load_raw(dataset, split)
     if limit and limit < len(rows):
         rows = _stratified_sample(rows, limit, seed)
 
@@ -68,7 +76,7 @@ def build_eval_set(
         w = csv.writer(f)
         w.writerow(["id", "text", "label"])
         for i, (text, label) in enumerate(rows):
-            w.writerow([f"fpb-{i}", text, label])
+            w.writerow([f"{dataset}-{i}", text, label])
     return path
 
 

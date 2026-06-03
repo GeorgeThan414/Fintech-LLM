@@ -1,0 +1,13 @@
+\begin{table}[t]
+  \centering
+  \caption{Sentiment classification on the Financial PhraseBank (FLARE-FPB) test split (300 sentences). Best per column in \textbf{bold}.}
+  \label{tab:sentiment-fpb}
+  \begin{tabular}{lrrrr}
+    \toprule
+    Engine & Accuracy & Macro-F1 & Weighted-F1 & Unknown (\%) \\
+    \midrule
+    FinBERT (ProsusAI) & \textbf{0.893} & \textbf{0.883} & \textbf{0.895} & 0.0 \\
+    Groq (Llama-3.3-70B) & 0.633 & 0.672 & 0.614 & 0.0 \\
+    \bottomrule
+  \end{tabular}
+\end{table}

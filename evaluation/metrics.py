@@ -10,6 +10,7 @@ Run after one or more engines have produced predictions:
   python -m evaluation.metrics
 """
 
+import argparse
 import csv
 import glob
 import os
@@ -19,10 +20,14 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-from evaluation.data import LABELS, load_eval_set  # noqa: E402
+from evaluation.data import DATASETS, LABELS, load_eval_set  # noqa: E402
 
 RESULTS = os.path.join(ROOT, "results")
-EVAL_SET = os.path.join(RESULTS, "eval_set.csv")
+
+DATASET_TITLE = {
+    "fpb": "Financial PhraseBank (FLARE-FPB) test split",
+    "fiqa": "FiQA-2018 SA (FLARE-FiQA) test split",
+}
 
 # Display names for the paper (engine key -> pretty label)
 DISPLAY = {
@@ -44,14 +49,15 @@ def _write_csv(path, header, rows):
         w.writerows(rows)
 
 
-def _latex_table(summary):
+def _latex_table(summary, dataset):
     """Render the summary list as a booktabs tabular."""
+    title = DATASET_TITLE.get(dataset, dataset)
     lines = [
         r"\begin{table}[t]",
         r"  \centering",
-        r"  \caption{Sentiment classification on the Financial PhraseBank test split "
-        r"(FLARE-FPB, %d sentences). Best per column in \textbf{bold}.}" % summary[0]["n"],
-        r"  \label{tab:sentiment}",
+        r"  \caption{Sentiment classification on the %s (%d sentences). "
+        r"Best per column in \textbf{bold}.}" % (title, summary[0]["n"]),
+        r"  \label{tab:sentiment-%s}" % dataset,
         r"  \begin{tabular}{lrrrr}",
         r"    \toprule",
         r"    Engine & Accuracy & Macro-F1 & Weighted-F1 & Unknown (\%) \\",
@@ -81,8 +87,14 @@ def _latex_table(summary):
 
 
 def main():
-    if not os.path.exists(EVAL_SET):
-        sys.exit(f"eval set not found: {EVAL_SET} (run evaluation.run_sentiment first)")
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--dataset", default="fpb", choices=list(DATASETS))
+    args = ap.parse_args()
+
+    out_dir = os.path.join(RESULTS, args.dataset)
+    eval_set = os.path.join(out_dir, "eval_set.csv")
+    if not os.path.exists(eval_set):
+        sys.exit(f"eval set not found: {eval_set} (run evaluation.run_sentiment --dataset {args.dataset} first)")
 
     from sklearn.metrics import (
         accuracy_score,
@@ -91,10 +103,10 @@ def main():
         precision_recall_fscore_support,
     )
 
-    truth = {r["id"]: r["label"] for r in load_eval_set(EVAL_SET)}
-    pred_files = sorted(glob.glob(os.path.join(RESULTS, "preds_*.csv")))
+    truth = {r["id"]: r["label"] for r in load_eval_set(eval_set)}
+    pred_files = sorted(glob.glob(os.path.join(out_dir, "preds_*.csv")))
     if not pred_files:
-        sys.exit("no results/preds_*.csv found — run evaluation.run_sentiment first")
+        sys.exit(f"no {out_dir}/preds_*.csv found — run evaluation.run_sentiment first")
 
     summary = []
     for pf in pred_files:
@@ -124,7 +136,7 @@ def main():
             y_true, y_pred, labels=LABELS, zero_division=0
         )
         _write_csv(
-            os.path.join(RESULTS, f"perclass_{engine}.csv"),
+            os.path.join(out_dir, f"perclass_{engine}.csv"),
             ["label", "precision", "recall", "f1", "support"],
             [[LABELS[i], f"{p[i]:.4f}", f"{r[i]:.4f}", f"{fsc[i]:.4f}", int(sup[i])]
              for i in range(len(LABELS))],
@@ -134,7 +146,7 @@ def main():
         cm_labels = LABELS + (["unknown"] if n_unknown else [])
         cm = confusion_matrix(y_true, y_pred, labels=cm_labels)
         _write_csv(
-            os.path.join(RESULTS, f"confusion_{engine}.csv"),
+            os.path.join(out_dir, f"confusion_{engine}.csv"),
             ["true\\pred"] + cm_labels,
             [[cm_labels[i]] + list(map(int, cm[i])) for i in range(len(LABELS))],
         )
@@ -145,16 +157,16 @@ def main():
     # Summary CSV + LaTeX
     summary.sort(key=lambda s: s["macro_f1"], reverse=True)
     _write_csv(
-        os.path.join(RESULTS, "sentiment_metrics.csv"),
+        os.path.join(out_dir, "sentiment_metrics.csv"),
         ["engine", "n", "accuracy", "macro_f1", "weighted_f1", "n_unknown"],
         [[s["engine"], s["n"], f"{s['accuracy']:.4f}", f"{s['macro_f1']:.4f}",
           f"{s['weighted_f1']:.4f}", s["n_unknown"]] for s in summary],
     )
-    tex_path = os.path.join(RESULTS, "sentiment_metrics.tex")
+    tex_path = os.path.join(out_dir, "sentiment_metrics.tex")
     with open(tex_path, "w", encoding="utf-8") as f:
-        f.write(_latex_table(summary))
+        f.write(_latex_table(summary, args.dataset))
 
-    print(f"\n[metrics] wrote sentiment_metrics.csv + sentiment_metrics.tex "
+    print(f"\n[metrics] {args.dataset}: wrote sentiment_metrics.csv + .tex "
           f"({len(summary)} engine(s))")
 
 

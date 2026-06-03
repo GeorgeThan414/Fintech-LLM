@@ -6,9 +6,9 @@ under `results/`.
 
 Two studies:
 
-1. **Sentiment** — FinBERT vs FinGPT vs Groq (Llama-3.3-70B) on a *labeled* benchmark.
+1. **Sentiment** — FinBERT vs FinGPT vs Groq (Llama-3.3-70B) on two *labeled* benchmarks:
+   FPB (in-domain) and FiQA (out-of-domain cross-check).
 2. **Forecasting** — FinGPT vs Groq vs naive baselines against *actual* price moves.
-   *(planned — see "Forecasting" below; not yet built.)*
 
 ---
 
@@ -29,22 +29,26 @@ Accuracy, macro-F1, weighted-F1, per-class precision/recall/F1, and confusion ma
 (via `scikit-learn`). Macro-F1 is the fair headline metric because the classes are
 imbalanced (neutral ≈ 59%, positive ≈ 29%, negative ≈ 12%).
 
+### Datasets (`--dataset`)
+| key | repo | split (test) | role |
+|---|---|---|---|
+| `fpb` | `ChanceFocus/flare-fpb` | 970 (we sample 300) | **in-domain** (FinBERT/FinGPT trained on it) |
+| `fiqa` | `ChanceFocus/flare-fiqasa` | 235 (full) | **out-of-domain** cross-check (FinBERT never saw it) |
+
 ### How to run
-All engines score the **same** materialized eval set (`results/eval_set.csv`) for a fair
-head-to-head. Decide the size once; resize with `--limit N --rebuild` (then re-run every
-engine).
+All engines score the **same** materialized eval set (`results/<dataset>/eval_set.csv`) for a
+fair head-to-head. Decide the size once; resize with `--limit N --rebuild` (then re-run every
+engine). Repeat the block for `--dataset fiqa`.
 
 ```bash
-# 1. Run each engine (writes results/preds_<engine>.csv)
-python -m evaluation.run_sentiment --engine finbert            # local, CPU, ~2 min
-python -m evaluation.run_sentiment --engine groq --limit 300   # cloud; needs GROQ_API_KEY
-python -m evaluation.run_sentiment --engine fingpt             # GPU/cluster (slow on CPU)
+# 1. Run each engine (writes results/<dataset>/preds_<engine>.csv)
+python -m evaluation.run_sentiment --engine finbert --dataset fpb --limit 300
+python -m evaluation.run_sentiment --engine groq    --dataset fpb           # paces 2.1s/call
+python -m evaluation.run_sentiment --engine fingpt  --dataset fpb           # GPU/cluster
 
-# 2. Aggregate -> tables
-python -m evaluation.metrics      # results/sentiment_metrics.{csv,tex} + per-class + confusion
-
-# 3. Figures
-python -m evaluation.figures      # results/figures/*.pdf
+# 2. Aggregate -> tables   3. Figures
+python -m evaluation.metrics  --dataset fpb     # sentiment_metrics.{csv,tex} + per-class + confusion
+python -m evaluation.figures  --dataset fpb     # figures/*.pdf
 ```
 
 `GROQ_API_KEY` is read from `.env`. Where each engine should run:
@@ -55,15 +59,18 @@ python -m evaluation.figures      # results/figures/*.pdf
 | Groq    | this laptop (cloud API) | rate-limited → use `--limit` (e.g. 300, stratified) |
 | FinGPT  | **Aristotle cluster (GPU)** | Llama-2-7B, too slow on CPU; copy `preds_fingpt.csv` back |
 
-### Output → paper mapping
+### Output → paper mapping (per dataset, under `results/<dataset>/`)
 
 | File | Paper element |
 |---|---|
-| `results/sentiment_metrics.tex` | **Table** — main results (accuracy / macro-F1 / weighted-F1) |
-| `results/perclass_<engine>.csv` | per-class precision/recall/F1 (appendix or text) |
-| `results/confusion_<engine>.csv` + `results/figures/confusion_<engine>.pdf` | **Figure** — confusion matrices |
-| `results/figures/accuracy_macrof1.pdf` | **Figure** — bar chart |
-| `results/preds_<engine>.csv` | error analysis (which sentences each model misses) |
+| `sentiment_metrics.tex` | **Table** — main results (accuracy / macro-F1 / weighted-F1) |
+| `perclass_<engine>.csv` | per-class precision/recall/F1 (appendix or text) |
+| `confusion_<engine>.csv` + `figures/confusion_<engine>.pdf` | **Figure** — confusion matrices |
+| `figures/accuracy_macrof1.pdf` | **Figure** — bar chart |
+| `preds_<engine>.csv` | error analysis (which sentences each model misses) |
+
+Report **FPB and FiQA side by side**: a model that wins on FPB (in-domain) but drops on
+FiQA (out-of-domain) reveals overfitting to the training distribution — a key finding.
 
 ---
 
@@ -87,19 +94,79 @@ python -m evaluation.figures      # results/figures/*.pdf
 
 ---
 
-## 2. Forecasting (planned)
+## 2. Forecasting study
 
 `FinGPT` vs `Groq` vs baselines (naive "always Rise", momentum, random) for next-week
-direction (Rise/Fall/Remain), scored against the **actual** realized price move.
+direction, scored against the **actual** realized price move.
 
-Key issues to handle, documented when built:
-- **Historical news availability** — yfinance only returns recent headlines; need
-  AlphaVantage historical news or a dataset to backtest past dates.
-- **Look-ahead bias** — the LLMs' training cutoffs may post-date the test events, so
-  apparent "forecasting" skill can be memorization. Prefer dates after the model cutoffs,
-  and state this limitation explicitly.
+### Design
+- **Eval points** = (ticker, as-of date) pairs over Dow30 names in 2024
+  (`evaluation/forecast_data.py`, `TICKERS` × `AS_OF_DATES`).
+- **Inputs** (identical for both models): 7-day price context + historical headlines from
+  Alpha Vantage NEWS_SENTIMENT bounded to `[as_of − 7d, as_of]` — **no look-ahead** in the
+  inputs. Cached to `results/forecast/eval_points.json` (the news fetch is rate-limited).
+- **Ground truth**: realized return from `as_of` close to 5 trading days later (yfinance).
+- **Both engines use the same prompt** (`models/forecast_common.py`) — FinGPT via the
+  Llama-2 `[INST]` wrapper, Groq via the chat system/user split.
+
+### Metrics
+- **Directional accuracy (primary)** — up vs down. A model "Remain"/"unknown" is
+  non-committal → counts as *incorrect*; the **decisiveness** column reports how often each
+  model actually committed to up/down.
+- **3-class accuracy (secondary)** — rise/fall/remain with a ±1% "remain" band on ground truth.
+
+### How to run
+```bash
+python -m evaluation.forecast_data                 # build/cached points (Alpha Vantage)
+python -m evaluation.run_forecast --engine groq    # local, cloud API
+python -m evaluation.run_forecast --engine fingpt  # on the Aristotle cluster (GPU)
+python -m evaluation.forecast_metrics              # forecast_metrics.{csv,tex} + per_point.csv
+```
+
+### Output → paper (`results/forecast/`)
+| File | Paper element |
+|---|---|
+| `forecast_metrics.tex` | **Table** — directional/3-class accuracy, models vs baselines |
+| `forecast_per_point.csv` | per-prediction detail (ticker, date, each call vs actual) |
+| `eval_points.json` | the frozen backtest inputs + ground truth (reproducibility) |
+
+### Caveats (state these explicitly)
+- **Small sample.** A handful of (ticker, date) points → wide confidence intervals; treat
+  forecasting numbers as illustrative, not definitive. Scale up `TICKERS`/`AS_OF_DATES`
+  (more Alpha Vantage quota) for tighter estimates.
+- **Look-ahead / memorization.** The LLMs' training cutoffs may post-date the 2024 test
+  events, so apparent skill can be recall, not forecasting. The *baselines* (naive/momentum)
+  are the honest yardstick: an LLM only "adds value" if it beats them.
+- **Alpha Vantage history** starts ~2022 and coverage varies by ticker; thin-news points are
+  skipped (`<2` headlines).
 
 ---
+
+## Run status (as of this branch)
+
+| Study | Engine | Status |
+|---|---|---|
+| Sentiment FPB | FinBERT | ✅ 300 — acc 0.893 / macro-F1 0.883 |
+| Sentiment FPB | Groq | ✅ 300 — acc 0.633 / macro-F1 0.672 |
+| Sentiment FiQA | FinBERT | ✅ 235 — acc 0.557 / macro-F1 0.530 |
+| Sentiment FiQA | Groq | ⏳ pending (Groq daily token cap hit) |
+| Forecast | Groq | ⏳ 10/20 (rate-limited); inputs frozen in `eval_points.json` |
+| Forecast | baselines | naive 0.65 / momentum 0.75 / random 0.40 dir-acc |
+| All | FinGPT | ⏳ pending — run on the Aristotle GPU |
+
+**Headline finding so far:** FinBERT (in-domain specialist) scores 0.89 on FPB but drops to
+0.56 on out-of-domain FiQA, while Groq (zero-shot 70B) trails on FPB — the in-domain vs
+generalization trade-off the cross-check was designed to surface.
+
+**To finish (after the Groq free-tier daily token quota resets, ~24h — runners now resume):**
+```bash
+python -m evaluation.run_sentiment --engine groq --dataset fiqa   # resumes
+python -m evaluation.run_forecast  --engine groq                  # redoes only the 10 failed points
+python -m evaluation.metrics --dataset fiqa && python -m evaluation.figures --dataset fiqa
+python -m evaluation.forecast_metrics
+```
+The Groq free tier is **100k tokens/day**; the full sweep needs more, so either spread runs
+across days or upgrade at console.groq.com. FinGPT columns run on the cluster.
 
 ## Reproducibility
 - Eval set is deterministic (`--seed`, default 42); stratified subsampling preserves class balance.

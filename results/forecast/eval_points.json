@@ -1,0 +1,1022 @@
+[
+  {
+    "id": "AAPL_2024-03-04",
+    "ticker": "AAPL",
+    "as_of": "2024-03-04",
+    "prices": [
+      {
+        "date": "2024-02-23",
+        "close": 180.71
+      },
+      {
+        "date": "2024-02-26",
+        "close": 179.36
+      },
+      {
+        "date": "2024-02-27",
+        "close": 180.82
+      },
+      {
+        "date": "2024-02-28",
+        "close": 179.62
+      },
+      {
+        "date": "2024-02-29",
+        "close": 178.95
+      },
+      {
+        "date": "2024-03-01",
+        "close": 177.88
+      },
+      {
+        "date": "2024-03-04",
+        "close": 173.36
+      }
+    ],
+    "headlines": [
+      "Eye on Travel: AmEx\u2019s New Virtual Card Integration for Small-Business Travel and Expenses; IHG Hotels Endorses Grazzy for Digital Tipping",
+      "Apple Hit With \u20ac1.8 Billion EU Fine Over Music App Abuses",
+      "Magnificent Seven vs. the \u2018Granolas\u2019: How does Europe\u2019s version stack up?",
+      "Dow's nearly 125-point rally led by gains for shares of NVIDIA Corp., Cisco",
+      "Butterfly iQ+ Ultrasound System",
+      "Nvidia skyrocketed over the past 5 years, but 3 stocks performed even better\u2014and none is Apple or Tesla",
+      "VONG ETF: A Great Way to Invest in Top Growth Stocks",
+      "EU lawmakers back draft rules on patents for connected cars, telecom equipment",
+      "NANC ETF Tracking Democrat Stock Trades Beating S&P 500 on Tech Bets",
+      "A Wonderful Options-Based Dividend-Focused ETF?"
+    ],
+    "actual_return": -0.0134,
+    "actual_direction": "down",
+    "actual_3class": "fall",
+    "momentum_prev": "down"
+  },
+  {
+    "id": "AAPL_2024-04-08",
+    "ticker": "AAPL",
+    "as_of": "2024-04-08",
+    "prices": [
+      {
+        "date": "2024-03-28",
+        "close": 169.78
+      },
+      {
+        "date": "2024-04-01",
+        "close": 168.34
+      },
+      {
+        "date": "2024-04-02",
+        "close": 167.16
+      },
+      {
+        "date": "2024-04-03",
+        "close": 167.97
+      },
+      {
+        "date": "2024-04-04",
+        "close": 167.14
+      },
+      {
+        "date": "2024-04-05",
+        "close": 167.9
+      },
+      {
+        "date": "2024-04-08",
+        "close": 166.78
+      }
+    ],
+    "headlines": [
+      "TSMC Arizona and U.S. Department of Commerce Announce up to US$6.6 Billion in Proposed CHIPS Act Direct Funding, the Company Plans Third Leading-Edge Fab in Phoenix",
+      "EU regulators assess Apple's plan for complying with music streaming order",
+      "If I Could Only Buy and Hold 1 Vanguard ETF For the Next 5 Years, This Would Be My Top Pick",
+      "Garmin Lily 2 Review: A Smartwatch That Doesn't Scream 'Fitness Tracker'",
+      "Cashing in on the Bitcoin Bounce: 3 Stocks to Buy for Indirect Crypto Exposure",
+      "Spotify to raise prices of plans in some markets, Bloomberg News reports",
+      "Leading chipmaker TSMC evacuates staff and pauses some machinery after Taiwan's largest earthquake in a quarter-century",
+      "Target shopper data, streaming TV ads are key to its sales",
+      "FemTech and the Gender Health Gap",
+      "Xiaomi Unveils Revolutionary SU7 Electric Vehicle Equipped with Hesai High-Performance Lidar"
+    ],
+    "actual_return": 0.0252,
+    "actual_direction": "up",
+    "actual_3class": "rise",
+    "momentum_prev": "down"
+  },
+  {
+    "id": "AAPL_2024-05-13",
+    "ticker": "AAPL",
+    "as_of": "2024-05-13",
+    "prices": [
+      {
+        "date": "2024-05-03",
+        "close": 181.56
+      },
+      {
+        "date": "2024-05-06",
+        "close": 179.91
+      },
+      {
+        "date": "2024-05-07",
+        "close": 180.59
+      },
+      {
+        "date": "2024-05-08",
+        "close": 180.93
+      },
+      {
+        "date": "2024-05-09",
+        "close": 182.74
+      },
+      {
+        "date": "2024-05-10",
+        "close": 181.48
+      },
+      {
+        "date": "2024-05-13",
+        "close": 184.68
+      }
+    ],
+    "headlines": [
+      "OUKITEL WP35\u304cAliExpress\u3067\u6b63\u5f0f\u306b\u767b\u5834\uff1a\u4e16\u754c\u6700\u8584\u306e11000mAh 5G\u30bf\u30d5\u30cd\u30b9\u30b9\u30de\u30fc\u30c8\u30d5\u30a9\u30f3\u3067\u9ad8\u7d1a\u306a\u30c0\u30a4\u30e4\u30e2\u30f3\u30c9\u67c4\u306e\u30d3\u30b8\u30cd\u30b9\u30b9\u30bf\u30a4\u30eb\u3092\u63d0\u4f9b",
+      "What Are Scope 3 Emissions And Why Should Trucking Companies Care?",
+      "The Digital Markets Act Roundup: March 2024",
+      "Faulty insulin pump tech led to hundreds of injuries, prompting app recall",
+      "Tech Stock Dividends Are Changing the Face of Dividend Growth Investing",
+      "Digital Map Market Size, Share with Focus on Emerging Technologies, Top Countries Data, Top Key Players Update, and Forecast 2029",
+      "Netflix\u2019s head of design answers every question you ever had about Netflix",
+      "Marvel Studios and ILM Immersive Announce 'What If\u2026? \u2013 An Immersive Story,' Coming Exclusively to Apple Vision Pro",
+      "Which Credit Bureau Stock Should You Buy for the Long-Term?",
+      "Can Crowding Scores Quantify US Stocks\u2019 Fragility?"
+    ],
+    "actual_return": 0.0256,
+    "actual_direction": "up",
+    "actual_3class": "rise",
+    "momentum_prev": "up"
+  },
+  {
+    "id": "AAPL_2024-06-10",
+    "ticker": "AAPL",
+    "as_of": "2024-06-10",
+    "prices": [
+      {
+        "date": "2024-05-31",
+        "close": 190.6
+      },
+      {
+        "date": "2024-06-03",
+        "close": 192.36
+      },
+      {
+        "date": "2024-06-04",
+        "close": 192.68
+      },
+      {
+        "date": "2024-06-05",
+        "close": 194.19
+      },
+      {
+        "date": "2024-06-06",
+        "close": 192.81
+      },
+      {
+        "date": "2024-06-07",
+        "close": 195.2
+      },
+      {
+        "date": "2024-06-10",
+        "close": 191.46
+      }
+    ],
+    "headlines": [
+      "Who are the highest-paid S&P 500 CEOs of 2023?",
+      "Private Cloud Compute: A new frontier for AI privacy in the cloud",
+      "Almost 300 Taiwanese students have come due to TSMC plants",
+      "What to Know Heading into FTSE Russell\u2019s 36th Annual Russell Reconstitution",
+      "Nvidia overtakes Apple as No. 2 most valuable company",
+      "Is Life360 still an opportunity after shares have surged?",
+      "Humane, the startup behind the AI Pin, in talks with HP, telecoms to sell",
+      "Dexcom launches G7 with Apple Watch integration in the U.S.",
+      "Arm aims to win 50% of PC market in five years: Haas",
+      "The 3 Best ETFs to Buy in June 2024"
+    ],
+    "actual_return": 0.1219,
+    "actual_direction": "up",
+    "actual_3class": "rise",
+    "momentum_prev": "up"
+  },
+  {
+    "id": "MSFT_2024-03-04",
+    "ticker": "MSFT",
+    "as_of": "2024-03-04",
+    "prices": [
+      {
+        "date": "2024-02-23",
+        "close": 403.26
+      },
+      {
+        "date": "2024-02-26",
+        "close": 400.51
+      },
+      {
+        "date": "2024-02-27",
+        "close": 400.45
+      },
+      {
+        "date": "2024-02-28",
+        "close": 400.69
+      },
+      {
+        "date": "2024-02-29",
+        "close": 406.51
+      },
+      {
+        "date": "2024-03-01",
+        "close": 408.33
+      },
+      {
+        "date": "2024-03-04",
+        "close": 407.76
+      }
+    ],
+    "headlines": [
+      "Microsoft Seeks to Dismiss Parts of Suit Filed by The New York Times (Published 2024)",
+      "OTA Ruling Favors Microsoft: Opens Door for Taxpayer Refunds on Foreign Dividends",
+      "Magnificent Seven vs. the \u2018Granolas\u2019: How does Europe\u2019s version stack up?",
+      "Dow's nearly 125-point rally led by gains for shares of NVIDIA Corp., Cisco",
+      "Citadel's Ken Griffin Oversees $500 Billion in Managed Assets: These Are His Top 5 Holdings",
+      "Microsoft spends big on data center land near Gainesville",
+      "5 Best Mind Mapping Software & Tools (Free & Paid)",
+      "KT teams up with Amazon to bolster B2B generative AI",
+      "Nvidia skyrocketed over the past 5 years, but 3 stocks performed even better\u2014and none is Apple or Tesla",
+      "VONG ETF: A Great Way to Invest in Top Growth Stocks"
+    ],
+    "actual_return": -0.0251,
+    "actual_direction": "down",
+    "actual_3class": "fall",
+    "momentum_prev": "up"
+  },
+  {
+    "id": "MSFT_2024-04-08",
+    "ticker": "MSFT",
+    "as_of": "2024-04-08",
+    "prices": [
+      {
+        "date": "2024-03-28",
+        "close": 413.46
+      },
+      {
+        "date": "2024-04-01",
+        "close": 417.25
+      },
+      {
+        "date": "2024-04-02",
+        "close": 414.17
+      },
+      {
+        "date": "2024-04-03",
+        "close": 413.2
+      },
+      {
+        "date": "2024-04-04",
+        "close": 410.67
+      },
+      {
+        "date": "2024-04-05",
+        "close": 418.18
+      },
+      {
+        "date": "2024-04-08",
+        "close": 417.27
+      }
+    ],
+    "headlines": [
+      "If I Could Only Buy and Hold 1 Vanguard ETF For the Next 5 Years, This Would Be My Top Pick",
+      "Alger Concentrated Equity ETF Holdings",
+      "HubSpot Acquisition Could Boost Google's Cloud Computing Business",
+      "How to Find a Great Dividend Fund",
+      "Alger Launches 2 Transparent Actively Managed ETFs",
+      "Winners of the 2024 IoT Evolution Industrial IoT Product of the Year Awards Announced",
+      "Bank of Montreal runs risk calculations twice as fast and at 30% less cost with Azure",
+      "Erosion in the rule of law creates potential corporate governance gaps & increases risks for management",
+      "The Rise of FinOps and GreenOps",
+      "Johnson & Johnson CIO says employee upskilling is key to transforming health care"
+    ],
+    "actual_return": -0.0258,
+    "actual_direction": "down",
+    "actual_3class": "fall",
+    "momentum_prev": "up"
+  },
+  {
+    "id": "MSFT_2024-05-13",
+    "ticker": "MSFT",
+    "as_of": "2024-05-13",
+    "prices": [
+      {
+        "date": "2024-05-03",
+        "close": 399.65
+      },
+      {
+        "date": "2024-05-06",
+        "close": 406.41
+      },
+      {
+        "date": "2024-05-07",
+        "close": 402.28
+      },
+      {
+        "date": "2024-05-08",
+        "close": 403.46
+      },
+      {
+        "date": "2024-05-09",
+        "close": 405.21
+      },
+      {
+        "date": "2024-05-10",
+        "close": 407.59
+      },
+      {
+        "date": "2024-05-13",
+        "close": 406.59
+      }
+    ],
+    "headlines": [
+      "OUKITEL WP35\u304cAliExpress\u3067\u6b63\u5f0f\u306b\u767b\u5834\uff1a\u4e16\u754c\u6700\u8584\u306e11000mAh 5G\u30bf\u30d5\u30cd\u30b9\u30b9\u30de\u30fc\u30c8\u30d5\u30a9\u30f3\u3067\u9ad8\u7d1a\u306a\u30c0\u30a4\u30e4\u30e2\u30f3\u30c9\u67c4\u306e\u30d3\u30b8\u30cd\u30b9\u30b9\u30bf\u30a4\u30eb\u3092\u63d0\u4f9b",
+      "Alternatives to LinkedIn Ads: Best Advertising Platforms",
+      "9 Top RPA Companies: Front Runners in Smart Technology",
+      "Google Cloud Is the World's Hottest Major Cloud Vendor; Oracle, ServiceNow Tied for Second",
+      "Australia Pacific Airports Corporation elevates operations with Dynamics 365 to keep the pace of modern travel",
+      "Cisco adds AI features to AppDynamics On-Premises",
+      "Murray State Welcomes Record Turnout For Security Matters 2024",
+      "VTEX brings the power of digital commerce innovation to Barcelona, setting the trend of an industry estimated to exceed USD 750 bln by 2027",
+      "WEC Energy's Gale Klappa: Microsoft building on foundation set by Foxconn, Power the Future",
+      "Corporations buy into sustainable fuel certificates to address air travel emissions"
+    ],
+    "actual_return": 0.0299,
+    "actual_direction": "up",
+    "actual_3class": "rise",
+    "momentum_prev": "up"
+  },
+  {
+    "id": "MSFT_2024-06-10",
+    "ticker": "MSFT",
+    "as_of": "2024-06-10",
+    "prices": [
+      {
+        "date": "2024-05-31",
+        "close": 408.71
+      },
+      {
+        "date": "2024-06-03",
+        "close": 407.12
+      },
+      {
+        "date": "2024-06-04",
+        "close": 409.63
+      },
+      {
+        "date": "2024-06-05",
+        "close": 417.45
+      },
+      {
+        "date": "2024-06-06",
+        "close": 417.95
+      },
+      {
+        "date": "2024-06-07",
+        "close": 417.29
+      },
+      {
+        "date": "2024-06-10",
+        "close": 421.25
+      }
+    ],
+    "headlines": [
+      "Nuclear power is 'overblown' as an energy source for data centers, power company CEO says",
+      "ANET Stock \u2013 A Pure Play on Data Center Growth",
+      "Perion\u2019s stock falls after ad-tech company loses Microsoft Bing business",
+      "Private Cloud Compute: A new frontier for AI privacy in the cloud",
+      "Mitigate Concentration Risk With Equal Weight ETF EQL",
+      "2 Popular Stocks That Top Managers Are Selling",
+      "Clorox Is Accelerating Innovation With Generative AI Investment",
+      "Google defeats class action over AI training data for now",
+      "What to Know Heading into FTSE Russell\u2019s 36th Annual Russell Reconstitution",
+      "NVIDIA and AMD Make Their Next Move in the AI Chip War"
+    ],
+    "actual_return": 0.0479,
+    "actual_direction": "up",
+    "actual_3class": "rise",
+    "momentum_prev": "up"
+  },
+  {
+    "id": "NVDA_2024-03-04",
+    "ticker": "NVDA",
+    "as_of": "2024-03-04",
+    "prices": [
+      {
+        "date": "2024-02-23",
+        "close": 78.77
+      },
+      {
+        "date": "2024-02-26",
+        "close": 79.04
+      },
+      {
+        "date": "2024-02-27",
+        "close": 78.65
+      },
+      {
+        "date": "2024-02-28",
+        "close": 77.62
+      },
+      {
+        "date": "2024-02-29",
+        "close": 79.06
+      },
+      {
+        "date": "2024-03-01",
+        "close": 82.23
+      },
+      {
+        "date": "2024-03-04",
+        "close": 85.18
+      }
+    ],
+    "headlines": [
+      "SK Hynix explores HBM chip collaboration with Kioxia",
+      "Super Micro Computer And Deckers Outdoor To Join S&P 500 Index",
+      "Zacks Investment Ideas feature highlights: BigBear.ai, Palantir, Super Micro Computer, SoundHound and Nvidia",
+      "SoundHound AI: Sniffing Out A Bubble (NASDAQ:SOUN)",
+      "Magnificent Seven vs. the \u2018Granolas\u2019: How does Europe\u2019s version stack up?",
+      "Dow's nearly 125-point rally led by gains for shares of NVIDIA Corp., Cisco",
+      "Citadel's Ken Griffin Oversees $500 Billion in Managed Assets: These Are His Top 5 Holdings",
+      "As CHIPS Act Money Is Set to Be Distributed, Experts See Pivotal Point in Establishing U.S. Market Structure for the Long Term, Creating High Stakes for Intel, TSMC, Broadcom, Qualcomm, Nvidia, Micron, and Texas Instruments",
+      "Aehr Announces Shipment of New High-Power Configured FOX-XP(TM) System for Wafer Level Burn-in and Stabilization of Next Generation Silicon Photonics Integrated Circuits",
+      "The AI Megatrend: 3 Global X ETFs to Capitalize on the Artificial Intelligence Frenzy"
+    ],
+    "actual_return": 0.0063,
+    "actual_direction": "up",
+    "actual_3class": "remain",
+    "momentum_prev": "up"
+  },
+  {
+    "id": "NVDA_2024-04-08",
+    "ticker": "NVDA",
+    "as_of": "2024-04-08",
+    "prices": [
+      {
+        "date": "2024-03-28",
+        "close": 90.31
+      },
+      {
+        "date": "2024-04-01",
+        "close": 90.31
+      },
+      {
+        "date": "2024-04-02",
+        "close": 89.4
+      },
+      {
+        "date": "2024-04-03",
+        "close": 88.91
+      },
+      {
+        "date": "2024-04-04",
+        "close": 85.86
+      },
+      {
+        "date": "2024-04-05",
+        "close": 87.96
+      },
+      {
+        "date": "2024-04-08",
+        "close": 87.08
+      }
+    ],
+    "headlines": [
+      "TSMC Arizona and U.S. Department of Commerce Announce up to US$6.6 Billion in Proposed CHIPS Act Direct Funding, the Company Plans Third Leading-Edge Fab in Phoenix",
+      "If I Could Only Buy and Hold 1 Vanguard ETF For the Next 5 Years, This Would Be My Top Pick",
+      "How Eastman used its data and analytics experience to get started with generative AI",
+      "AMD Advances Open Source Initiative with MES Firmware Release for Radeon GPUs",
+      "Alger Concentrated Equity ETF Holdings",
+      "Chip maker SkyWater cancels plans for Indiana plant\u2014at least for now",
+      "Quantum computing startup Infleqtion names Matthew Kinsella as CEO",
+      "Alger Launches 2 Transparent Actively Managed ETFs",
+      "Should You Invest in the Invesco AI and Next Gen Software ETF (IGPT)?",
+      "Leading chipmaker TSMC evacuates staff and pauses some machinery after Taiwan's largest earthquake in a quarter-century"
+    ],
+    "actual_return": -0.013,
+    "actual_direction": "down",
+    "actual_3class": "fall",
+    "momentum_prev": "down"
+  },
+  {
+    "id": "NVDA_2024-05-13",
+    "ticker": "NVDA",
+    "as_of": "2024-05-13",
+    "prices": [
+      {
+        "date": "2024-05-03",
+        "close": 88.74
+      },
+      {
+        "date": "2024-05-06",
+        "close": 92.09
+      },
+      {
+        "date": "2024-05-07",
+        "close": 90.5
+      },
+      {
+        "date": "2024-05-08",
+        "close": 90.36
+      },
+      {
+        "date": "2024-05-09",
+        "close": 88.7
+      },
+      {
+        "date": "2024-05-10",
+        "close": 89.83
+      },
+      {
+        "date": "2024-05-13",
+        "close": 90.35
+      }
+    ],
+    "headlines": [
+      "Cloud and AI Service Provider DigitalOcean Stock Soars - Here's Why",
+      "Nvidia's next-generation GPU revealed: integrating eight HBM 4, TSMC N3 process",
+      "EPAM Q1 Earnings Beat, Shares Fall on Downbeat FY24 Guidance",
+      "Missed Out on Nvidia? Buy the Invesco Semiconductors ETF (PSI) Instead.",
+      "Should You Buy Nvidia Stock Before the AI Chipmaker Reports Earnings on May 22?",
+      "The 3 Best ETFs to Buy in May 2024",
+      "Nvidia, Micron and Super Micro among companies that shine in Wall Street\u2019s \u2018beat-and-raise\u2019 game",
+      "Roundhill Reaches $1B AUM Milestone",
+      "The market's attention is focused after Stanley Druckenmiller, a Wall Street billionaire investor, b..",
+      "AI microservices level up with Red Hat, Nvidia partnership"
+    ],
+    "actual_return": 0.0485,
+    "actual_direction": "up",
+    "actual_3class": "rise",
+    "momentum_prev": "up"
+  },
+  {
+    "id": "NVDA_2024-06-10",
+    "ticker": "NVDA",
+    "as_of": "2024-06-10",
+    "prices": [
+      {
+        "date": "2024-05-31",
+        "close": 109.57
+      },
+      {
+        "date": "2024-06-03",
+        "close": 114.94
+      },
+      {
+        "date": "2024-06-04",
+        "close": 116.37
+      },
+      {
+        "date": "2024-06-05",
+        "close": 122.37
+      },
+      {
+        "date": "2024-06-06",
+        "close": 120.93
+      },
+      {
+        "date": "2024-06-07",
+        "close": 120.82
+      },
+      {
+        "date": "2024-06-10",
+        "close": 121.72
+      }
+    ],
+    "headlines": [
+      "S&P 500: If you didn't bet on US stocks, 'then you look like a moron'",
+      "If You'd Invested $1,000 in Super Micro Computer Stock 5 Years Ago, Here's How Much You'd Have Today",
+      "ANET Stock \u2013 A Pure Play on Data Center Growth",
+      "Hoth Therapeutics Announces Joint Development Agreement with Wise Systems International SRL to Utilize Artificial Intelligence for Drug Discovery",
+      "Mitigate Concentration Risk With Equal Weight ETF EQL",
+      "NVIDIA and AMD Make Their Next Move in the AI Chip War",
+      "Is Super Micro Computer a Top Artificial Intelligence (AI) Stock to Buy Right Now?",
+      "Arista releases Etherlink platforms for AI networking focused on large clusters",
+      "Nvidia overtakes Apple as No. 2 most valuable company",
+      "TSMC Shares Hit Record High as AI Demand Boosts Chip Industry"
+    ],
+    "actual_return": 0.0755,
+    "actual_direction": "up",
+    "actual_3class": "rise",
+    "momentum_prev": "up"
+  },
+  {
+    "id": "JPM_2024-03-04",
+    "ticker": "JPM",
+    "as_of": "2024-03-04",
+    "prices": [
+      {
+        "date": "2024-02-23",
+        "close": 175.37
+      },
+      {
+        "date": "2024-02-26",
+        "close": 174.77
+      },
+      {
+        "date": "2024-02-27",
+        "close": 174.85
+      },
+      {
+        "date": "2024-02-28",
+        "close": 175.74
+      },
+      {
+        "date": "2024-02-29",
+        "close": 177.34
+      },
+      {
+        "date": "2024-03-01",
+        "close": 176.61
+      },
+      {
+        "date": "2024-03-04",
+        "close": 177.93
+      }
+    ],
+    "headlines": [
+      "LPL Chief Product Officer to Step Down Amid 'Organizational Realignment'",
+      "Latin America's largest lender Itau eyes a share of India's banking pie",
+      "Watkins Advises Safehold in US$300 Million Notes Offering",
+      "Capital One\u2019s Discover Acquisition Would Reshape US Credit Card Industry",
+      "Walker & Dunlop arranges $103M refinancing for Casa Cipriani",
+      "HEAD-TO-HEAD: Invesco versus Janus Henderson",
+      "\u00bfQui\u00e9n es el due\u00f1o de BBVA en M\u00e9xico?",
+      "Sherwin-Williams among companies softening vocabulary following DEI backlash",
+      "RBC Wealth Management-US Makes Artificial Intelligence Move",
+      "Metropolitan Commercial Bank Bolsters Risk Management and Finance Teams with Experienced Large Bank Veterans"
+    ],
+    "actual_return": 0.0086,
+    "actual_direction": "up",
+    "actual_3class": "remain",
+    "momentum_prev": "up"
+  },
+  {
+    "id": "JPM_2024-04-08",
+    "ticker": "JPM",
+    "as_of": "2024-04-08",
+    "prices": [
+      {
+        "date": "2024-03-28",
+        "close": 190.91
+      },
+      {
+        "date": "2024-04-01",
+        "close": 189.62
+      },
+      {
+        "date": "2024-04-02",
+        "close": 189.54
+      },
+      {
+        "date": "2024-04-03",
+        "close": 189.01
+      },
+      {
+        "date": "2024-04-04",
+        "close": 187.57
+      },
+      {
+        "date": "2024-04-05",
+        "close": 189.29
+      },
+      {
+        "date": "2024-04-08",
+        "close": 190.28
+      }
+    ],
+    "headlines": [
+      "Letter to Shareholders from Tim Berry, Annual Report 2023",
+      "Uber Freight hires CH Robinson, Amazon veterans",
+      "JPMorgan CEO Jamie Dimon's Annual Letter: Interest Rates Could Go Far Higher Than Many Expect (Full Text)",
+      "VOOV: A Decent Passively Managed Value ETF, But Not The Best (NYSEARCA:VOOV)",
+      "Buyers Edge Platform Announces $425M Preferred Equity Investment Led by General Atlantic Credit\u2019s Atlantic Park Fund, Alongside Blackstone Tactical Opportunities and Morgan Stanley Tactical Value",
+      "Jamie Dimon's Letter to Shareholder's, Annual Report 2023",
+      "BofA urged by proxy advisers to split CEO, chair roles",
+      "BlackRock Adds Goldman Sachs, Citigroup, UBS as APs for Bitcoin ETF",
+      "Treasury Yields Snapshot: April 5, 2024",
+      "Arch Insurance NA to acquire Allianz\u2019s US MidCorp & Entertainment insurance businesses"
+    ],
+    "actual_return": -0.0785,
+    "actual_direction": "down",
+    "actual_3class": "fall",
+    "momentum_prev": "down"
+  },
+  {
+    "id": "JPM_2024-05-13",
+    "ticker": "JPM",
+    "as_of": "2024-05-13",
+    "prices": [
+      {
+        "date": "2024-05-03",
+        "close": 182.64
+      },
+      {
+        "date": "2024-05-06",
+        "close": 184.07
+      },
+      {
+        "date": "2024-05-07",
+        "close": 183.83
+      },
+      {
+        "date": "2024-05-08",
+        "close": 187.57
+      },
+      {
+        "date": "2024-05-09",
+        "close": 189.34
+      },
+      {
+        "date": "2024-05-10",
+        "close": 190.56
+      },
+      {
+        "date": "2024-05-13",
+        "close": 190.52
+      }
+    ],
+    "headlines": [
+      "Community banks fuel local economies. Here\u2019s what new leadership means for Utah\u2019s oldest.",
+      "ON THE MOVE: FalconX Hires Jonathan Yam; Tom Holmes to KeyBanc Capital Markets",
+      "Johnson & Johnson is selling its remaining Kenvue shares",
+      "United Way honors Central 9 Logistics Park, Kenvue headquarters while marking 25 years of support from New Jersey commercial real estate leaders \u2013 Real Estate NJ",
+      "'Run from this bank,' fumes Truist customer after $1,000 paycheck disappeared",
+      "Fidelity, First American, Stewart, Old Republic report 1Q profits",
+      "Asia And Europe Markets Advance; Gold Inches Toward $2,400 Again - Global Markets Today While US Slept",
+      "Why are senior JPMorgan execs 'jumping' to Wells Fargo?",
+      "Behind Morgan Stanley\u2019s Workplace Strategy",
+      "Active ETF Investors Flock to DFA Funds"
+    ],
+    "actual_return": -0.0159,
+    "actual_direction": "down",
+    "actual_3class": "fall",
+    "momentum_prev": "up"
+  },
+  {
+    "id": "JPM_2024-06-10",
+    "ticker": "JPM",
+    "as_of": "2024-06-10",
+    "prices": [
+      {
+        "date": "2024-05-31",
+        "close": 194.26
+      },
+      {
+        "date": "2024-06-03",
+        "close": 193.48
+      },
+      {
+        "date": "2024-06-04",
+        "close": 190.93
+      },
+      {
+        "date": "2024-06-05",
+        "close": 189.11
+      },
+      {
+        "date": "2024-06-06",
+        "close": 188.78
+      },
+      {
+        "date": "2024-06-07",
+        "close": 191.69
+      },
+      {
+        "date": "2024-06-10",
+        "close": 191.36
+      }
+    ],
+    "headlines": [
+      "Addus HomeCare expands personal care services to 2 new states with $350M deal",
+      "2024 Mid-Year Outlook: Key Takeaways",
+      "Ferguson plc: Share Repurchase Program",
+      "Waystar Shares Dip After 2024\u2019s Biggest IPO by a US Company",
+      "0DTE Options Volume, Penny Stocks, Panic Buying in Stocks",
+      "Fair Isaac Corporation (NYSE:FICO): The Original AI Stock with the Patents to Prove It",
+      "Texas is coming for Wall Street with a new BlackRock-backed stock exchange",
+      "How Synchrony is making WFH work when other FIs haven\u2019t",
+      "ENVESTNET DEEPENING RELATIONSHIPS WITH BLACKROCK, FIDELITY, FRANKLIN TEMPLETON, AND STATE STREET TO LAUNCH PERSONALIZED INVESTMENT STRATEGIES",
+      "Londoner Macao down up to 3k rooms in 2Q: firm"
+    ],
+    "actual_return": -0.0232,
+    "actual_direction": "down",
+    "actual_3class": "fall",
+    "momentum_prev": "down"
+  },
+  {
+    "id": "WMT_2024-03-04",
+    "ticker": "WMT",
+    "as_of": "2024-03-04",
+    "prices": [
+      {
+        "date": "2024-02-23",
+        "close": 57.05
+      },
+      {
+        "date": "2024-02-26",
+        "close": 58.11
+      },
+      {
+        "date": "2024-02-27",
+        "close": 58.1
+      },
+      {
+        "date": "2024-02-28",
+        "close": 58.12
+      },
+      {
+        "date": "2024-02-29",
+        "close": 57.14
+      },
+      {
+        "date": "2024-03-01",
+        "close": 57.29
+      },
+      {
+        "date": "2024-03-04",
+        "close": 57.81
+      }
+    ],
+    "headlines": [
+      "Central Virginia poultry growers forming co-op in wake of Tyson facility closure, contract buyouts",
+      "Walmart sells intermodal assets to JB Hunt",
+      "JB Hunt acquires Walmart\u2019s intermodal assets",
+      "Marissa Mayer Elected to AT&T Board of Directors",
+      "CEO explains why RadNet is piloting mammogram screenings in Walmart stores",
+      "Wincanton backs \u00a3762m takeover offer from US group GXO",
+      "Oatly introduces four creamers in the U.S.",
+      "Celldex (CLDX) Announces Proposed $250M Share Offering",
+      "Nestl\u00e9, P&G, and Walmart reveal their 2024 talent retention secrets",
+      "San Francisco Macy\u2019s to close in devastating blow to downtown"
+    ],
+    "actual_return": 0.0229,
+    "actual_direction": "up",
+    "actual_3class": "rise",
+    "momentum_prev": "up"
+  },
+  {
+    "id": "WMT_2024-04-08",
+    "ticker": "WMT",
+    "as_of": "2024-04-08",
+    "prices": [
+      {
+        "date": "2024-03-28",
+        "close": 58.86
+      },
+      {
+        "date": "2024-04-01",
+        "close": 58.69
+      },
+      {
+        "date": "2024-04-02",
+        "close": 57.87
+      },
+      {
+        "date": "2024-04-03",
+        "close": 58.14
+      },
+      {
+        "date": "2024-04-04",
+        "close": 58.21
+      },
+      {
+        "date": "2024-04-05",
+        "close": 58.55
+      },
+      {
+        "date": "2024-04-08",
+        "close": 58.48
+      }
+    ],
+    "headlines": [
+      "Target rolls out Target Circle 360 paid membership",
+      "Uber Freight hires CH Robinson, Amazon veterans",
+      "HCA Healthcare applies to build free-standing emergency center in Arlington",
+      "Six Star Pro Nutrition\u00ae and WK Kellogg Co Introduce Six Star\u00ae 100% Whey Protein Plus Ready-to-Drink (RTD) In Kellogg\u2019s\u00ae Froot Loops\u00ae Cereal Flavor",
+      "Walmart Recalls Mainstays Electric Mini Choppers Due to Laceration Hazard; Sold Exclusively at Walmart | CPSC.gov",
+      "Kristen Wiig's Target Lady to tout Target Circle Week sale, which runs April 7-13",
+      "Costco offering members access to weight-loss programs including medication",
+      "VanEck Retail ETF: The Landscape May Turn (NASDAQ:RTH)",
+      "Target shopper data, streaming TV ads are key to its sales",
+      "Grocery Outlet permanently closing store on Watt Avenue in Arden-Arcade"
+    ],
+    "actual_return": 0.0025,
+    "actual_direction": "up",
+    "actual_3class": "remain",
+    "momentum_prev": "down"
+  },
+  {
+    "id": "WMT_2024-05-13",
+    "ticker": "WMT",
+    "as_of": "2024-05-13",
+    "prices": [
+      {
+        "date": "2024-05-03",
+        "close": 58.52
+      },
+      {
+        "date": "2024-05-06",
+        "close": 58.57
+      },
+      {
+        "date": "2024-05-07",
+        "close": 59.3
+      },
+      {
+        "date": "2024-05-08",
+        "close": 58.99
+      },
+      {
+        "date": "2024-05-09",
+        "close": 59.33
+      },
+      {
+        "date": "2024-05-10",
+        "close": 59.37
+      },
+      {
+        "date": "2024-05-13",
+        "close": 59.3
+      }
+    ],
+    "headlines": [
+      "Target to cut Pride-themed products in some stores after last year's backlash",
+      "Urban Edge Properties acquires 448K sq. ft. Shops at Ledgewood in Roxbury for $83M",
+      "Once troubled Ledgewood mall in Morris County fetches $83M",
+      "Urban Edge Properties adds Ledgewood Commons for $83M",
+      "Boston Scientific appoints new member of board of directors",
+      "Urban Edge acquires new-look 448,000 sq. ft. retail center in Roxbury for $83 million",
+      "Weis Markets reignites store growth",
+      "The FTC Requests More Info About Walmart\u2019s $2.3 Billion Vizio Acquisition",
+      "Tesla expands Semi testing program, partners with Costco, Sysco, and US Foods",
+      "Walmart, Target Flagged for 'Deceptive' Reef-friendly Sunscreen Claims"
+    ],
+    "actual_return": 0.0624,
+    "actual_direction": "up",
+    "actual_3class": "rise",
+    "momentum_prev": "up"
+  },
+  {
+    "id": "WMT_2024-06-10",
+    "ticker": "WMT",
+    "as_of": "2024-06-10",
+    "prices": [
+      {
+        "date": "2024-05-31",
+        "close": 64.55
+      },
+      {
+        "date": "2024-06-03",
+        "close": 64.61
+      },
+      {
+        "date": "2024-06-04",
+        "close": 65.38
+      },
+      {
+        "date": "2024-06-05",
+        "close": 65.86
+      },
+      {
+        "date": "2024-06-06",
+        "close": 65.92
+      },
+      {
+        "date": "2024-06-07",
+        "close": 64.67
+      },
+      {
+        "date": "2024-06-10",
+        "close": 65.73
+      }
+    ],
+    "headlines": [
+      "JM Smucker\u2019s Caf\u00e9 Bustelo enters refrigerated aisle with iced coffee",
+      "News | Who Would Want To Buy Family Dollar? The Answer Could Be Far-Flung.",
+      "Walmart to bring electronic shelf labels to thousands of stores",
+      "Walmart to use more digital shelf labels, expand inHome delivery service",
+      "Walmart to roll out digital shelf labels in 2,300 stores by 2026",
+      "Is Life360 still an opportunity after shares have surged?",
+      "New Tech, Better Outcomes: Digital Shelf Labels Are a Win for Customers and Associates",
+      "Dollar Tree explores sale of struggling Family Dollar banner",
+      "Food co-ops aren't known for price-conscious customers. That's changing",
+      "Dollar Tree is exploring a sale of its Family Dollar brand"
+    ],
+    "actual_return": 0.0069,
+    "actual_direction": "up",
+    "actual_3class": "remain",
+    "momentum_prev": "up"
+  }
+]
