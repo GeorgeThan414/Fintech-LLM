@@ -1,0 +1,5 @@
+engine,n,directional_accuracy,three_class_accuracy,decisiveness
+groq,20,0.5000,0.5000,0.6500
+momentum,20,0.7500,0.6000,1.0000
+naive_rise,20,0.6500,0.4500,1.0000
+random,20,0.4000,0.3000,1.0000

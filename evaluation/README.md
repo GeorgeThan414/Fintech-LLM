@@ -149,24 +149,28 @@ python -m evaluation.forecast_metrics              # forecast_metrics.{csv,tex} 
 | Sentiment FPB | FinBERT | ✅ 300 — acc 0.893 / macro-F1 0.883 |
 | Sentiment FPB | Groq | ✅ 300 — acc 0.633 / macro-F1 0.672 |
 | Sentiment FiQA | FinBERT | ✅ 235 — acc 0.557 / macro-F1 0.530 |
-| Sentiment FiQA | Groq | ⏳ pending (Groq daily token cap hit) |
-| Forecast | Groq | ⏳ 10/20 (rate-limited); inputs frozen in `eval_points.json` |
-| Forecast | baselines | naive 0.65 / momentum 0.75 / random 0.40 dir-acc |
+| Sentiment FiQA | Groq | ✅ 235 — acc 0.868 / macro-F1 0.692 |
+| Forecast | Groq | ✅ 20/20 — dir-acc 0.50 / 3-class 0.50 (decisiveness 0.65) |
+| Forecast | baselines | momentum 0.75 / naive 0.65 / random 0.40 dir-acc |
 | All | FinGPT | ⏳ pending — run on the Aristotle GPU |
 
-**Headline finding so far:** FinBERT (in-domain specialist) scores 0.89 on FPB but drops to
-0.56 on out-of-domain FiQA, while Groq (zero-shot 70B) trails on FPB — the in-domain vs
-generalization trade-off the cross-check was designed to surface.
+**Headline finding — a domain crossover:** the specialist and the generalist swap places by
+domain. FinBERT (trained on FPB) wins in-domain (0.89 vs 0.63 on FPB) but collapses
+out-of-domain (0.56 on FiQA), where the zero-shot 70B generalist is far more robust (0.87).
+On **forecasting**, Groq (0.50 directional) fails to beat the naive (0.65) or momentum (0.75)
+baselines — consistent with LLMs being weak stock forecasters (n=20, illustrative).
 
-**To finish (after the Groq free-tier daily token quota resets, ~24h — runners now resume):**
+**Remaining — FinGPT columns (run on the Aristotle GPU, then copy preds back):**
 ```bash
-python -m evaluation.run_sentiment --engine groq --dataset fiqa   # resumes
-python -m evaluation.run_forecast  --engine groq                  # redoes only the 10 failed points
+python -m evaluation.run_sentiment --engine fingpt --dataset fpb
+python -m evaluation.run_sentiment --engine fingpt --dataset fiqa
+python -m evaluation.run_forecast  --engine fingpt
+python -m evaluation.metrics --dataset fpb  && python -m evaluation.figures --dataset fpb
 python -m evaluation.metrics --dataset fiqa && python -m evaluation.figures --dataset fiqa
 python -m evaluation.forecast_metrics
 ```
-The Groq free tier is **100k tokens/day**; the full sweep needs more, so either spread runs
-across days or upgrade at console.groq.com. FinGPT columns run on the cluster.
+Note: Groq free tier is **100k tokens/day** — the full Groq sweep (~95k) fits in one day but
+leaves little headroom; spread re-runs across days or upgrade at console.groq.com if needed.
 
 ## Reproducibility
 - Eval set is deterministic (`--seed`, default 42); stratified subsampling preserves class balance.

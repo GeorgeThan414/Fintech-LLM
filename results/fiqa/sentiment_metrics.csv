@@ -1,2 +1,3 @@
 engine,n,accuracy,macro_f1,weighted_f1,n_unknown
+groq,235,0.8681,0.6919,0.8581,0
 finbert,235,0.5574,0.5300,0.6402,0
