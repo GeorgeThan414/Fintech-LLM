@@ -37,3 +37,6 @@ pyrightconfig.json
 
 # Data cache
 data/sp500_tickers.csv
+
+# Local-only forecast script (contains hardcoded API keys; not for commit)
+run_forecast_v2.py
