@@ -26,6 +26,11 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+.claude/
+
+# Pylance / Pyright
+pyrightconfig.json
+.pyrightcache/
 
 # Streamlit
 .streamlit/secrets.toml
