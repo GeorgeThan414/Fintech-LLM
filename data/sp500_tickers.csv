@@ -67,7 +67,7 @@ BIIB,Biogen,Health Care,Biotechnology
 BLK,BlackRock,Financials,Asset Management & Custody Banks
 BX,Blackstone Inc.,Financials,Asset Management & Custody Banks
 XYZ,"Block, Inc.",Financials,Transaction & Payment Processing Services
-BK,BNY Mellon,Financials,Asset Management & Custody Banks
+BNY,BNY Mellon,Financials,Asset Management & Custody Banks
 BA,Boeing,Industrials,Aerospace & Defense
 BKNG,Booking Holdings,Consumer Discretionary,"Hotels, Resorts & Cruise Lines"
 BSX,Boston Scientific,Health Care,Health Care Equipment
@@ -174,7 +174,6 @@ EME,Emcor,Industrials,Construction & Engineering
 EMR,Emerson Electric,Industrials,Electrical Components & Equipment
 ETR,Entergy,Utilities,Electric Utilities
 EOG,EOG Resources,Energy,Oil & Gas Exploration & Production
-EPAM,EPAM Systems,Information Technology,IT Consulting & Other Services
 EQT,EQT Corporation,Energy,Oil & Gas Exploration & Production
 EFX,Equifax,Industrials,Research & Consulting Services
 EQIX,Equinix,Real Estate,Data Center REITs
@@ -197,6 +196,7 @@ FICO,Fair Isaac,Information Technology,Application Software
 FAST,Fastenal,Industrials,Trading Companies & Distributors
 FRT,Federal Realty Investment Trust,Real Estate,Retail REITs
 FDX,FedEx,Industrials,Air Freight & Logistics
+FDXF,FedEx Freight,Industrials,Cargo Ground Transportation
 FIS,Fidelity National Information Services,Financials,Transaction & Payment Processing Services
 FITB,Fifth Third Bancorp,Financials,Regional Banks
 FSLR,First Solar,Information Technology,Semiconductors

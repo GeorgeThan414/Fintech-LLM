@@ -22,11 +22,17 @@ SYSTEM_PROMPT = (
 )
 
 
-def build_forecast_user_message(ticker: str, headlines: List[str], prices: List[Dict]) -> str:
+def build_forecast_user_message(
+    ticker: str, headlines: List[str], prices: List[Dict], format_hint: bool = True
+) -> str:
     """The task instance (prices + news + instructions), engine-agnostic.
 
     prices: list of {"date": "YYYY-MM-DD", "close": float}
     headlines: list of news headline strings
+    format_hint: include the explicit "Prediction: Rise/Fall/Remain" example block.
+        Set False for the FinGPT LoRA — the LoRA was not trained with this instruction
+        and echoes "Rise" from the example instead of reasoning through the data.
+        Set True (default) for generic chat models like Groq that need the hint.
     """
     start = prices[0]
     end = prices[-1]
@@ -34,7 +40,7 @@ def build_forecast_user_message(ticker: str, headlines: List[str], prices: List[
 
     news_block = "\n".join(f"[Headline]: {h}\n[Summary]: N/A" for h in headlines)
 
-    return (
+    base = (
         f"From {start['date']} to {end['date']}, {ticker}'s stock price "
         f"{direction} from ${start['close']} to ${end['close']}. "
         f"Company news during this period are listed below:\n\n"
@@ -43,7 +49,14 @@ def build_forecast_user_message(ticker: str, headlines: List[str], prices: List[
         f"Based on all the information before {end['date']}, let's first analyze the positive "
         f"developments and potential concerns for {ticker}. Come up with 2-4 most important "
         f"factors respectively and keep them concise. Then make your prediction of the {ticker} "
-        f"stock price movement for next week. Provide a summary analysis to support your prediction.\n\n"
+        f"stock price movement for next week. Provide a summary analysis to support your prediction."
+    )
+
+    if not format_hint:
+        return base
+
+    return (
+        base + "\n\n"
         f"IMPORTANT: End your response with EXACTLY this format on its own line:\n"
         f"Prediction: Rise\n"
         f"OR\n"
@@ -56,7 +69,7 @@ def build_forecast_user_message(ticker: str, headlines: List[str], prices: List[
 
 def build_forecast_prompt(ticker: str, headlines: List[str], prices: List[Dict]) -> str:
     """Llama-2 [INST] wrapped prompt for the local FinGPT model."""
-    user_message = build_forecast_user_message(ticker, headlines, prices)
+    user_message = build_forecast_user_message(ticker, headlines, prices, format_hint=False)
     return f"[INST] <<SYS>>\n{SYSTEM_PROMPT}\n<</SYS>>\n\n{user_message} [/INST]"
 
 
