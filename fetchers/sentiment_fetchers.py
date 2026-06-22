@@ -141,6 +141,45 @@ def analyze_with_fingpt(headline: str, tokenizer, model) -> Dict:
     }
 
 
+def analyze_with_fingpt_sentiment(headline: str, tokenizer, model) -> Dict:
+    """
+    Use the DEDICATED FinGPT sentiment LoRA (Llama-2-13B) for sentiment.
+    Unlike analyze_with_fingpt (7B base, LoRA off), this is the real fine-tuned
+    sentiment model and emits clean negative/neutral/positive labels via the
+    standard FinGPT instruction prompt.
+    """
+    import torch
+
+    prompt = (
+        "Instruction: What is the sentiment of this news? "
+        "Please choose an answer from {negative/neutral/positive}.\n"
+        f"Input: {headline}\n"
+        "Answer: "
+    )
+
+    inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+
+    with torch.no_grad():
+        outputs = model.generate(
+            **inputs,
+            max_new_tokens=10,
+            do_sample=False,
+            eos_token_id=tokenizer.eos_token_id,
+            pad_token_id=tokenizer.pad_token_id,
+        )
+
+    decoded = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    generated = decoded[len(prompt):].strip()
+
+    return {
+        "sentiment": _extract_sentiment(generated),
+        "impact": "medium",  # this model only emits a label, no impact signal
+        "reason": "",
+        "raw": generated,
+        "engine": "FinGPT-Sentiment (Llama-2-13B LoRA)",
+    }
+
+
 def analyze_with_finbert(headline: str, tokenizer, model) -> Dict:
     """
     Use ProsusAI/finbert (BERT classifier fine-tuned on financial text).

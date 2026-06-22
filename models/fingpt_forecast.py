@@ -16,7 +16,7 @@ from peft import PeftModel
 
 # Prompt building + output parsing live in forecast_common (torch-free) so the Groq
 # engine can reuse the exact same prompt/parse logic for a fair comparison.
-from models.forecast_common import (  # noqa: F401  (re-exported for backward compat)
+from models.forecast_common import (  
     SYSTEM_PROMPT,
     build_forecast_prompt,
     extract_prediction,

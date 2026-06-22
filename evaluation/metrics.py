@@ -34,6 +34,7 @@ DISPLAY = {
     "finbert": "FinBERT (ProsusAI)",
     "groq": "Groq (Llama-3.3-70B)",
     "fingpt": "FinGPT (Llama-2-7B base)",
+    "fingpt13b": "FinGPT-Sentiment (Llama-2-13B LoRA)",
 }
 
 

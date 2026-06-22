@@ -129,9 +129,9 @@ st.markdown("""
 
     .badge {
         display: inline-block;
-        padding: 3px 10px;
+        padding: 4px 12px;
         border-radius: 12px;
-        font-size: 0.72rem;
+        font-size: 0.92rem;
         font-weight: 600;
         margin-right: 6px;
     }
@@ -800,7 +800,7 @@ elif page == "News & Sentiment":
                                 unsafe_allow_html=True)
                     reason = r.get("groq_reason", "").strip()
                     if reason:
-                        st.markdown(f'<div style="color:#475569;font-size:0.88rem;'
+                        st.markdown(f'<div style="color:#475569;font-size:2rem;'
                                     f'margin:6px 0 4px 0;font-style:italic;">'
                                     f'{reason}</div>',
                                     unsafe_allow_html=True)
@@ -815,7 +815,7 @@ elif page == "News & Sentiment":
                                 unsafe_allow_html=True)
                     reason = r.get("fingpt_reason", "").strip()
                     if reason:
-                        st.markdown(f'<div style="color:#475569;font-size:0.88rem;'
+                        st.markdown(f'<div style="color:#475569;font-size:2rem;'
                                     f'margin:6px 0 4px 0;font-style:italic;">'
                                     f'{reason}</div>',
                                     unsafe_allow_html=True)
@@ -918,7 +918,7 @@ elif page == "FinGPT Forecast":
         <div style="background:{pred_bg};
                     border-left:5px solid {pred_color};border-radius:8px;
                     padding:24px;margin:20px 0;">
-            <div style="font-size:0.85rem;color:#475569;">Next Week Prediction for {cached_symbol}</div>
+            <div style="font-size:1rem;color:#475569;">Next Week Prediction for {cached_symbol}</div>
             <div style="font-size:2.6rem;font-weight:700;color:{pred_color};text-transform:uppercase;letter-spacing:0.05em;">
                 {pred or 'Unknown'}
             </div>
@@ -928,13 +928,19 @@ elif page == "FinGPT Forecast":
         c1, c2 = st.columns(2)
         with c1:
             st.subheader("Positive Developments")
-            st.markdown(sections["positive"] or "_No positive developments parsed._")
+            st.markdown(f'<div style="font-size:2rem;color:#1e293b;line-height:1.7;">'
+                        f'{sections["positive"] or "_No positive developments parsed._"}</div>',
+                        unsafe_allow_html=True)
         with c2:
             st.subheader("Potential Concerns")
-            st.markdown(sections["concerns"] or "_No concerns parsed._")
+            st.markdown(f'<div style="font-size:2rem;color:#1e293b;line-height:1.7;">'
+                        f'{sections["concerns"] or "_No concerns parsed._"}</div>',
+                        unsafe_allow_html=True)
 
         st.subheader("📋 Analysis")
-        st.markdown(sections["analysis"] or "_No analysis parsed._")
+        st.markdown(f'<div style="font-size:2rem;color:#1e293b;line-height:1.7;">'
+                    f'{sections["analysis"] or "_No analysis parsed._"}</div>',
+                    unsafe_allow_html=True)
 
         with st.expander("Inputs used (for transparency)"):
             st.markdown("**Price history (last 7 days):**")

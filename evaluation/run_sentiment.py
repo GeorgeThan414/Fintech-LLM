@@ -65,6 +65,13 @@ def get_predictor(engine: str):
         tok, mdl = load_fingpt_model()
         return lambda text: analyze_with_fingpt(text, tok, mdl)
 
+    if engine == "fingpt13b":
+        from fetchers.sentiment_fetchers import analyze_with_fingpt_sentiment
+        from models.fingpt_sentiment import load_fingpt_sentiment_model
+
+        tok, mdl = load_fingpt_sentiment_model()
+        return lambda text: analyze_with_fingpt_sentiment(text, tok, mdl)
+
     sys.exit(f"unknown engine: {engine}")
 
 
@@ -91,7 +98,8 @@ def _predict_with_retry(predict, text, tries=5):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--engine", required=True, choices=["finbert", "groq", "fingpt"])
+    ap.add_argument("--engine", required=True,
+                    choices=["finbert", "groq", "fingpt", "fingpt13b"])
     ap.add_argument("--dataset", default="fpb", choices=list(DATASETS),
                     help="benchmark: fpb (in-domain) or fiqa (out-of-domain)")
     ap.add_argument("--split", default=None, help="dataset split (default: test)")

@@ -82,7 +82,6 @@ BXP,"BXP, Inc.",Real Estate,Office REITs
 CHRW,C.H. Robinson,Industrials,Air Freight & Logistics
 CDNS,Cadence Design Systems,Information Technology,Application Software
 CPT,Camden Property Trust,Real Estate,Multi-Family Residential REITs
-CPB,Campbell's Company (The),Consumer Staples,Packaged Foods & Meats
 COF,Capital One,Financials,Consumer Finance
 CAH,Cardinal Health,Health Care,Health Care Distributors
 CCL,Carnival Corporation,Consumer Discretionary,"Hotels, Resorts & Cruise Lines"
@@ -202,6 +201,7 @@ FITB,Fifth Third Bancorp,Financials,Regional Banks
 FSLR,First Solar,Information Technology,Semiconductors
 FE,FirstEnergy,Utilities,Electric Utilities
 FISV,Fiserv,Financials,Transaction & Payment Processing Services
+FLEX,Flex Ltd.,Information Technology,Electronic Manufacturing Services
 F,Ford Motor Company,Consumer Discretionary,Automobile Manufacturers
 FTNT,Fortinet,Information Technology,Systems Software
 FTV,Fortive,Industrials,Industrial Machinery & Supplies & Components
@@ -301,6 +301,7 @@ MPC,Marathon Petroleum,Energy,Oil & Gas Refining & Marketing
 MAR,Marriott International,Consumer Discretionary,"Hotels, Resorts & Cruise Lines"
 MRSH,Marsh McLennan,Financials,Insurance Brokers
 MLM,Martin Marietta Materials,Materials,Construction Materials
+MRVL,Marvell Technology,Information Technology,Semiconductors
 MAS,Masco,Industrials,Building Products
 MA,Mastercard,Financials,Transaction & Payment Processing Services
 MKC,McCormick & Company,Consumer Staples,Packaged Foods & Meats
@@ -369,7 +370,6 @@ PM,Philip Morris International,Consumer Staples,Tobacco
 PSX,Phillips 66,Energy,Oil & Gas Refining & Marketing
 PNW,Pinnacle West Capital,Utilities,Multi-Utilities
 PNC,PNC Financial Services,Financials,Diversified Banks
-POOL,Pool Corporation,Consumer Discretionary,Distributors
 PPG,PPG Industries,Materials,Specialty Chemicals
 PPL,PPL Corporation,Utilities,Electric Utilities
 PFG,Principal Financial Group,Financials,Life & Health Insurance

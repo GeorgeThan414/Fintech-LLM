@@ -26,6 +26,7 @@ DISPLAY = {
     "finbert": "FinBERT",
     "groq": "Groq\n(Llama-3.3-70B)",
     "fingpt": "FinGPT\n(Llama-2-7B)",
+    "fingpt13b": "FinGPT-Sent\n(Llama-2-13B)",
 }
 
 
