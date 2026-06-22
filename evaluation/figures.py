@@ -1,11 +1,14 @@
 """Generate publication figures (PDF, vector) from the metrics CSVs.
 
-Outputs to results/figures/:
+Outputs to results/<dataset>/figures/:
   accuracy_macrof1.pdf    grouped bar chart, accuracy + macro-F1 per engine
   confusion_<engine>.pdf  confusion-matrix heatmap per engine
+  forecast_accuracy.pdf   directional + 3-class accuracy per engine (--dataset forecast)
 
 Run after evaluation.metrics:
-  python -m evaluation.figures
+  python -m evaluation.figures                     # fpb (default)
+  python -m evaluation.figures --dataset fiqa
+  python -m evaluation.figures --dataset forecast
 """
 
 import argparse
@@ -27,7 +30,13 @@ DISPLAY = {
     "groq": "Groq\n(Llama-3.3-70B)",
     "fingpt": "FinGPT\n(Llama-2-7B)",
     "fingpt13b": "FinGPT-Sent\n(Llama-2-13B)",
+    "momentum": "Momentum",
+    "naive_rise": "Naive\n(always Rise)",
+    "random": "Random",
 }
+
+# Order for the forecast chart: models first, then baselines.
+FORECAST_ORDER = ["fingpt", "groq", "momentum", "naive_rise", "random"]
 
 
 def _read_csv(path):
@@ -97,16 +106,56 @@ def confusion_heatmaps(out_dir, figdir):
         print(f"wrote {out}")
 
 
+def forecast_accuracy_bar(out_dir, figdir):
+    path = os.path.join(out_dir, "forecast_metrics.csv")
+    if not os.path.exists(path):
+        print("skip forecast_accuracy_bar: forecast_metrics.csv missing")
+        return
+    rows = {r["engine"]: r for r in csv.DictReader(open(path, encoding="utf-8"))}
+    engines = [e for e in FORECAST_ORDER if e in rows] + \
+        [e for e in rows if e not in FORECAST_ORDER]
+    labels = [DISPLAY.get(e, e) for e in engines]
+    direc = [float(rows[e]["directional_accuracy"]) for e in engines]
+    three = [float(rows[e]["three_class_accuracy"]) for e in engines]
+
+    x = np.arange(len(engines))
+    w = 0.38
+    fig, ax = plt.subplots(figsize=(8, 4.2))
+    b1 = ax.bar(x - w / 2, direc, w, label="Directional accuracy", color="#2563eb")
+    b2 = ax.bar(x + w / 2, three, w, label="3-class accuracy", color="#2dd4bf")
+    ax.axhline(0.5, ls="--", color="#9ca3af", lw=1)
+    ax.text(len(engines) - 0.5, 0.5, "chance (0.5)", ha="right", va="bottom",
+            fontsize=8, color="#9ca3af")
+    ax.set_ylim(0, 1.0)
+    ax.set_ylabel("Accuracy")
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.legend()
+    for bars in (b1, b2):
+        for bar in bars:
+            h = bar.get_height()
+            ax.annotate(f"{h:.2f}", (bar.get_x() + bar.get_width() / 2, h),
+                        ha="center", va="bottom", fontsize=8)
+    fig.tight_layout()
+    out = os.path.join(figdir, "forecast_accuracy.pdf")
+    fig.savefig(out)
+    plt.close(fig)
+    print(f"wrote {out}")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--dataset", default="fpb", choices=["fpb", "fiqa"])
+    ap.add_argument("--dataset", default="fpb", choices=["fpb", "fiqa", "forecast"])
     args = ap.parse_args()
 
     out_dir = os.path.join(RESULTS, args.dataset)
     figdir = os.path.join(out_dir, "figures")
     os.makedirs(figdir, exist_ok=True)
-    accuracy_bar(out_dir, figdir)
-    confusion_heatmaps(out_dir, figdir)
+    if args.dataset == "forecast":
+        forecast_accuracy_bar(out_dir, figdir)
+    else:
+        accuracy_bar(out_dir, figdir)
+        confusion_heatmaps(out_dir, figdir)
 
 
 if __name__ == "__main__":
