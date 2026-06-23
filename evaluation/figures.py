@@ -44,7 +44,13 @@ def _read_csv(path):
         return list(csv.reader(f))
 
 
-def accuracy_bar(out_dir, figdir):
+TITLES = {
+    "fpb": "Financial PhraseBank (in-domain) — sentiment performance",
+    "fiqa": "FiQA (out-of-domain) — sentiment performance",
+}
+
+
+def accuracy_bar(out_dir, figdir, dataset):
     path = os.path.join(out_dir, "sentiment_metrics.csv")
     if not os.path.exists(path):
         print("skip accuracy_bar: sentiment_metrics.csv missing")
@@ -62,7 +68,7 @@ def accuracy_bar(out_dir, figdir):
     b2 = ax.bar(x + w / 2, mf1, w, label="Macro-F1", color="#16a34a")
     ax.set_ylim(0, 1.0)
     ax.set_ylabel("Score")
-    ax.set_title("Financial PhraseBank (test) — sentiment performance")
+    ax.set_title(TITLES.get(dataset, f"{dataset} — sentiment performance"))
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
     ax.legend()
@@ -154,7 +160,7 @@ def main():
     if args.dataset == "forecast":
         forecast_accuracy_bar(out_dir, figdir)
     else:
-        accuracy_bar(out_dir, figdir)
+        accuracy_bar(out_dir, figdir, args.dataset)
         confusion_heatmaps(out_dir, figdir)
 
 

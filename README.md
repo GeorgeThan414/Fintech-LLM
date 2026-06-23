@@ -5,7 +5,7 @@ Live stock intelligence platform combining real-time market data, LLM-powered ne
 ## Features
 
 - **Stock Overview** — Live prices, OHLC candlestick charts, and company info for any S&P 500 ticker (Yahoo Finance)
-- **News & Sentiment** — Latest headlines per ticker, scored for sentiment + impact by **Groq (Llama 3.3 70B)** and/or **FinGPT (local Llama-2-7b-chat)** side-by-side comparison
+- **News & Sentiment** — Latest headlines per ticker, scored for sentiment + impact by three engines you can compare side-by-side: **Groq (Llama 3.3 70B)**, **FinGPT (local Llama-2-7b-chat base, LoRA disabled)**, and **FinBERT (ProsusAI local classifier)**
 - **FinGPT Forecast** — Run the FinGPT forecaster (Llama-2 + LoRA fine-tuned on Dow30) on any S&P 500 stock. Outputs structured: Positive Developments, Concerns, Prediction (Rise/Fall/Remain), Analysis
 
 ## Quick Start
@@ -40,22 +40,35 @@ NGROK_AUTHTOKEN=your_ngrok_token             # https://dashboard.ngrok.com (free
 
 ```
 Fintech-LLM/
-├── streamlit_app.py          ← Main Streamlit app (4 pages)
-├── run_streamlit.py          ← Launcher (with optional --public ngrok flag)
-├── requirements.txt          ← Python dependencies
-├── .env                      ← API keys (do NOT commit)
+├── streamlit_app.py            ← Main Streamlit app (Stock / News & Sentiment / Forecast)
+├── run_streamlit.py            ← Launcher (with optional --public ngrok flag)
+├── requirements.txt            ← Python dependencies
+├── .env                        ← API keys (do NOT commit)
 ├── data/
 │   ├── __init__.py
-│   ├── sp500_tickers.py      ← S&P 500 list from Wikipedia (cached 7 days)
-│   └── sp500_tickers.csv     ← cached ticker list
+│   ├── sp500_tickers.py        ← S&P 500 list from Wikipedia (cached 7 days)
+│   └── sp500_tickers.csv       ← cached ticker list
 ├── fetchers/
 │   ├── __init__.py
-│   ├── stock_fetchers.py     ← yfinance: live prices, history, company info
-│   ├── news_fetchers.py      ← yfinance + Alpha Vantage news fetchers
-│   └── sentiment_fetchers.py ← Groq + FinGPT (LoRA disabled) sentiment engines
-└── models/
-    ├── __init__.py
-    └── fingpt_forecast.py    ← FinGPT forecaster: load + prompt + parse output
+│   ├── stock_fetchers.py       ← yfinance: live prices, history, company info
+│   ├── news_fetchers.py        ← yfinance + Alpha Vantage news fetchers
+│   └── sentiment_fetchers.py   ← Groq + FinGPT (LoRA disabled) sentiment engines
+├── models/
+│   ├── __init__.py
+│   ├── fingpt_forecast.py      ← FinGPT forecaster: load + prompt + parse output
+│   ├── fingpt_sentiment.py     ← FinGPT dedicated sentiment LoRA (Llama-2-13B + adapter)
+│   ├── forecast_common.py      ← Shared, framework-free forecast prompt + output parsing
+│   └── groq_forecast.py        ← Groq (Llama-3.3-70B) forecaster (same prompt as FinGPT)
+├── evaluation/                 ← Model-comparison harness (see evaluation/README.md)
+│   ├── data.py · metrics.py · figures.py          ← sentiment: eval set, tables, charts
+│   ├── run_sentiment.py                            ← run one sentiment engine
+│   ├── forecast_data.py · forecast_metrics.py      ← forecast: eval points, tables
+│   ├── run_forecast.py                             ← run one forecast engine
+│   └── README.md                                   ← full benchmark methodology
+└── results/                    ← Committed benchmark outputs (CSV + LaTeX + PDF figures)
+    ├── fpb/        ← sentiment on Financial PhraseBank (in-domain)
+    ├── fiqa/       ← sentiment on FiQA-SA (out-of-domain cross-check)
+    └── forecast/   ← next-week direction: models vs naive/momentum baselines
 ```
 
 ## How it works
@@ -70,6 +83,23 @@ Fintech-LLM/
 | Forecasting | Llama-2-7b-chat + FinGPT/fingpt-forecaster_dow30_llama2-7b_lora |
 
 The local FinGPT model is loaded once per session via `@st.cache_resource`. Sentiment uses the **same model in memory** with the LoRA adapter toggled off (`model.disable_adapter()`); forecasting re-enables it. This avoids loading two separate model copies (~28GB VRAM).
+
+## Model-comparison harness
+
+The `evaluation/` package benchmarks the models quantitatively (FinBERT vs FinGPT vs Groq
+for sentiment; FinGPT vs Groq vs naive/momentum baselines for forecasting) and writes result
+tables, LaTeX, and PDF figures under `results/`. See **[`evaluation/README.md`](evaluation/README.md)**
+for the datasets, metrics, methodology, and run commands.
+
+```bash
+# sentiment (per dataset: fpb / fiqa)
+python -m evaluation.run_sentiment --engine finbert --dataset fpb --limit 300
+python -m evaluation.metrics --dataset fpb && python -m evaluation.figures --dataset fpb
+
+# forecasting
+python -m evaluation.run_forecast --engine groq
+python -m evaluation.forecast_metrics
+```
 
 ## First-run download
 
