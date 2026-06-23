@@ -5,7 +5,7 @@ Live stock intelligence platform combining real-time market data, LLM-powered ne
 ## Features
 
 - **Stock Overview** — Live prices, OHLC candlestick charts, and company info for any S&P 500 ticker (Yahoo Finance)
-- **News & Sentiment** — Latest headlines per ticker, scored for sentiment + impact by three engines you can compare side-by-side: **Groq (Llama 3.3 70B)**, **FinGPT (local Llama-2-7b-chat base, LoRA disabled)**, and **FinBERT (ProsusAI local classifier)**
+- **News & Sentiment** — Latest headlines per ticker, scored for sentiment + impact by, and compared across, multiple engines: the dedicated **FinGPT sentiment model (Llama-2-13B + fine-tuned LoRA)**, **Groq (Llama 3.3 70B)**, **FinBERT (ProsusAI local classifier)**, and a plain **Llama-2-7b-chat** base as a generalist baseline
 - **FinGPT Forecast** — Run the FinGPT forecaster (Llama-2 + LoRA fine-tuned on Dow30) on any S&P 500 stock. Outputs structured: Positive Developments, Concerns, Prediction (Rise/Fall/Remain), Analysis
 
 ## Quick Start
