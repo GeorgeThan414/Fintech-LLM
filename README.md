@@ -1,7 +1,9 @@
 # Fintech-LLM
 
 Live stock intelligence platform combining real-time market data, LLM-powered news sentiment, and FinGPT forecasting in one Streamlit dashboard.
+Live stock intelligence platform combining real-time market data, LLM-powered news sentiment, and FinGPT forecasting in one Streamlit dashboard.
 
+> Built on the open-source [FinGPT](https://github.com/AI4Finance-Foundation/FinGPT) project by the AI4Finance Foundation.
 ## Features
 
 - **Stock Overview** — Live prices, OHLC candlestick charts, and company info for any S&P 500 ticker (Yahoo Finance)
@@ -107,6 +109,28 @@ python -m evaluation.forecast_metrics
 - FinGPT LoRA adapter: ~50MB
 - Triggered the first time you click any FinGPT button. ~30 second load into VRAM. After that, every subsequent FinGPT call is instant.
 
+## Credits & Citation
+
+This project builds on **FinGPT**, the open-source financial LLM framework from the **AI4Finance Foundation**. The forecasting model (`fingpt-forecaster_dow30_llama2-7b_lora`, released Nov 2023) and the FinGPT sentiment adapter (`fingpt-sentiment_llama2-13b_lora`, released Aug 2023) used here are their released artifacts; this repo wraps them in a Streamlit dashboard and adds a model-comparison harness.
+
+- **Original repository:** https://github.com/AI4Finance-Foundation/FinGPT
+- **Paper:** Yang, Liu & Wang. *FinGPT: Open-Source Financial Large Language Models.* FinLLM Symposium @ IJCAI 2023. https://arxiv.org/abs/2306.06031
+
+If you use this work, please cite the original FinGPT paper:
+
+```bibtex
+@inproceedings{yang2023fingpt,
+  title     = {FinGPT: Open-Source Financial Large Language Models},
+  author    = {Yang, Hongyang and Liu, Xiao-Yang and Wang, Christina Dan},
+  booktitle = {FinLLM Symposium at IJCAI 2023},
+  year      = {2023},
+  eprint    = {2306.06031},
+  archivePrefix = {arXiv},
+  primaryClass  = {q-fin.ST}
+}
+```
+
+FinGPT is released by the AI4Finance Foundation under its own license, please review and comply with the upstream repository's license terms for any redistribution or commercial use of its models.
 
 ## Disclaimer
 
